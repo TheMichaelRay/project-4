@@ -25765,6 +25765,7 @@ var Router = require('react-router');
 var ReactDOM = require('react-dom');
 var Title = require('./modules/app');
 var Fire = require('./modules/fire');
+var Login = require('./modules/login');
 var routes = require('./modules/routes');
 var { DefaultRoute, NotFoundRoute, Router, hashHistory, Route } = require('react-router');
 
@@ -25774,32 +25775,22 @@ ReactDOM.render(React.createElement(
   React.createElement(
     Route,
     { path: '/', component: Title },
-    React.createElement(Route, { path: '/fire', component: Fire })
+    React.createElement(Route, { path: '/fire', component: Fire }),
+    React.createElement(Route, { path: '/login', component: Login })
   )
 ), document.getElementById('app'));
 
-},{"./modules/app":236,"./modules/fire":237,"./modules/routes":238,"react":232,"react-dom":52,"react-router":82}],236:[function(require,module,exports){
+},{"./modules/app":236,"./modules/fire":237,"./modules/login":238,"./modules/routes":239,"react":232,"react-dom":52,"react-router":82}],236:[function(require,module,exports){
 var React = require('react');
 var { Link } = require('react-router');
-
-//
-// var Title = React.createClass({
-//   render: function() {
-//     return (
-//       <div>
-//         <h1>BANG</h1>
-//       </div>
-//     )
-//   }
-// })
-//
-// ReactDOM.render(
-//   <Title />, document.getElementById('app')
-// )
+var Signup = require('./signup');
 
 module.exports = React.createClass({
   displayName: 'exports',
 
+  isLoggedIn: function () {
+    $.ajax({});
+  },
   render: function () {
     $(".button-collapse").sideNav();
     return React.createElement(
@@ -25856,13 +25847,13 @@ module.exports = React.createClass({
       React.createElement(
         'div',
         { className: 'container' },
-        this.props.children
+        this.props.children || React.createElement(Signup, null)
       )
     );
   }
 });
 
-},{"react":232,"react-router":82}],237:[function(require,module,exports){
+},{"./signup":240,"react":232,"react-router":82}],237:[function(require,module,exports){
 var React = require('react');
 
 module.exports = React.createClass({
@@ -25898,6 +25889,100 @@ module.exports = React.createClass({
 
 },{"react":232}],238:[function(require,module,exports){
 var React = require('react');
+
+module.exports = React.createClass({
+  displayName: 'exports',
+
+  getInitialState: function () {
+    return {
+      email: '',
+      password: ''
+    };
+  },
+  email: function (e) {
+    this.setState({ email: e.target.value });
+  },
+  password: function (e) {
+    this.setState({ password: e.target.value });
+  },
+  submit: function (e) {
+    e.preventDefault();
+    var email = this.state.email.trim();
+    var password = this.state.password;
+    if (!email || !password) {
+      return;
+    }
+    console.log(this.state);
+    $.ajax({
+      url: '/users/login',
+      type: 'POST',
+      dataType: 'json',
+      contentType: "application/json",
+      data: this.state,
+      success: function (data) {
+        console.log('receiving from db', data);
+      }.bind(this),
+      error: function (xhr, status, err) {
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
+    this.setState({ email: '', password: '' });
+  },
+
+  getUsers: function () {
+    $.ajax({
+      url: '/users/testing',
+      type: 'POST',
+      success: function (data) {
+        console.log(data);
+      }
+    });
+  },
+
+  render: function () {
+    return React.createElement(
+      'div',
+      null,
+      React.createElement(
+        'form',
+        { className: 'col s12', onSubmit: this.submit },
+        React.createElement(
+          'div',
+          { className: 'input-field col s12' },
+          React.createElement('input', { id: 'email', type: 'email', className: 'validate', value: this.state.email, onChange: this.email }),
+          React.createElement(
+            'label',
+            { htmlFor: 'email' },
+            '*Email'
+          )
+        ),
+        React.createElement(
+          'div',
+          { className: 'input-field col s12' },
+          React.createElement('input', { id: 'password', type: 'password', className: 'validate', value: this.state.password, onChange: this.password }),
+          React.createElement(
+            'label',
+            { htmlFor: 'password' },
+            '*Password'
+          )
+        ),
+        React.createElement(
+          'button',
+          { className: 'btn waves-effect waves-light', type: 'submit' },
+          'Submit'
+        ),
+        React.createElement(
+          'button',
+          { className: 'btn waves-effect waves-light', type: 'button', onClick: this.getUsers },
+          'Test'
+        )
+      )
+    );
+  }
+});
+
+},{"react":232}],239:[function(require,module,exports){
+var React = require('react');
 var { DefaultRoute, NotFoundRoute, Route } = require('react-router');
 var Test = require('./app');
 var Fire = require('./fire');
@@ -25908,4 +25993,187 @@ module.exports = React.createElement(
   React.createElement(Route, { path: '/fire', component: Fire })
 );
 
-},{"./app":236,"./fire":237,"react":232,"react-router":82}]},{},[235]);
+},{"./app":236,"./fire":237,"react":232,"react-router":82}],240:[function(require,module,exports){
+var React = require('react');
+var { browserHistory } = require('react-router');
+
+module.exports = React.createClass({
+  displayName: 'exports',
+
+  getInitialState: function () {
+    return {
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+      avatar: '',
+      bio: '',
+      age: ''
+    };
+  },
+  firstName: function (e) {
+    this.setState({ firstName: e.target.value });
+  },
+  lastName: function (e) {
+    this.setState({ lastName: e.target.value });
+  },
+  email: function (e) {
+    this.setState({ email: e.target.value });
+  },
+  password: function (e) {
+    this.setState({ password: e.target.value });
+  },
+  avatar: function (e) {
+    this.setState({ avatar: e.target.value });
+  },
+  bio: function (e) {
+    this.setState({ bio: e.target.value });
+  },
+  age: function (e) {
+    this.setState({ age: e.target.value });
+  },
+  submit: function (e) {
+    e.preventDefault();
+    var firstName = this.state.firstName.trim();
+    var lastName = this.state.lastName.trim();
+    var email = this.state.email.trim();
+    var age = Number(this.state.age);
+    var password = this.state.password;
+    var avatar = this.state.avatar.trim();
+    var bio = this.state.bio.trim();
+    if (!firstName || !lastName || !email || age < 18 || !Number(age) || !password) {
+      return;
+    }
+    var local = {
+      email: email,
+      password: password
+    };
+    var newUser = {
+      local: local,
+      firstName: firstName,
+      lastName: lastName,
+      age: age,
+      avatar: avatar,
+      bio: bio
+    };
+    console.log(newUser);
+    $.ajax({
+      url: '/users/signup',
+      type: 'POST',
+      contentType: "application/json",
+      dataType: 'json',
+      data: newUser,
+      success: function (data) {
+        console.log('receiving from db', data);
+      }.bind(this),
+      error: function (xhr, status, err) {
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
+    this.setState({ firstName: '', lastName: '', email: '', age: '', password: '', avatar: '', bio: '' });
+  },
+  test: function () {
+    $.ajax({
+      url: '/users',
+      type: 'GET',
+      success: function (data) {
+        console.log(data);
+      },
+      error: function (xhr, status, err) {
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
+  },
+  render: function () {
+    return React.createElement(
+      'div',
+      null,
+      React.createElement(
+        'form',
+        { className: 'col s12', onSubmit: this.submit },
+        React.createElement(
+          'div',
+          { className: 'input-field col s12' },
+          React.createElement('input', { id: 'firstName', type: 'text', className: 'validate', value: this.state.firstName, onChange: this.firstName }),
+          React.createElement(
+            'label',
+            { htmlFor: 'firstName' },
+            '*First Name'
+          )
+        ),
+        React.createElement(
+          'div',
+          { className: 'input-field col s12' },
+          React.createElement('input', { id: 'lastName', type: 'text', className: 'validate', value: this.state.lastName, onChange: this.lastName }),
+          React.createElement(
+            'label',
+            { htmlFor: 'lastName' },
+            '*Last Name'
+          )
+        ),
+        React.createElement(
+          'div',
+          { className: 'input-field col s12' },
+          React.createElement('input', { id: 'email', type: 'email', className: 'validate', value: this.state.email, onChange: this.email }),
+          React.createElement(
+            'label',
+            { htmlFor: 'email' },
+            '*Email'
+          )
+        ),
+        React.createElement(
+          'div',
+          { className: 'input-field col s12' },
+          React.createElement('input', { id: 'password', type: 'password', className: 'validate', value: this.state.password, onChange: this.password }),
+          React.createElement(
+            'label',
+            { htmlFor: 'password' },
+            '*Password'
+          )
+        ),
+        React.createElement(
+          'div',
+          { className: 'input-field col s12' },
+          React.createElement('input', { id: 'avatar', type: 'text', className: 'validate', value: this.state.avatar, onChange: this.avatar }),
+          React.createElement(
+            'label',
+            { htmlFor: 'avatar' },
+            'Avatar'
+          )
+        ),
+        React.createElement(
+          'div',
+          { className: 'input-field col s12' },
+          React.createElement('textarea', { id: 'bio', className: 'materialize-textarea', value: this.state.bio, onChange: this.bio }),
+          React.createElement(
+            'label',
+            { htmlFor: 'bio' },
+            'Bio'
+          )
+        ),
+        React.createElement(
+          'div',
+          { className: 'input-field col s12' },
+          React.createElement('input', { id: 'age', type: 'text', className: 'validate', value: this.state.age, onChange: this.age }),
+          React.createElement(
+            'label',
+            { htmlFor: 'age' },
+            '*Age'
+          )
+        ),
+        React.createElement(
+          'button',
+          { className: 'btn waves-effect waves-light', type: 'submit' },
+          'Submit'
+        ),
+        React.createElement(
+          'button',
+          { className: 'btn waves-effect waves-light', type: 'button', onClick: this.test },
+          'Testing'
+        )
+      )
+    );
+  }
+});
+
+},{"react":232,"react-router":82}]},{},[235]);

@@ -21,13 +21,22 @@ router.post('/signup', passport.authenticate('local-signup'), function(req, res)
     }
   })
 
+router.post('/testing', function(req, res) {
+  res.json({success: true})
+})
+
+// router.route('/login')
+//   .post(passport.authenticate('local-login'), function(req, res) {
+//     if (req.user) {
+//       res.json(req.user)
+//     } else {
+//       res.json({success: false, message: "Unable to verify user"})
+//     }
+//   })
+
 router.route('/login')
-  .post(passport.authenticate('local-login'), function(req, res) {
-    if (req.user) {
-      res.json(req.user)
-    } else {
-      res.json({success: false, message: "Unable to verify user"})
-    }
+  .post(function(req, res) {
+    res.json({success: true})
   })
 
 router.use(isLoggedIn)

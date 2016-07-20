@@ -1,22 +1,12 @@
 var React = require('react')
 var {Link} = require('react-router')
-
-//
-// var Title = React.createClass({
-//   render: function() {
-//     return (
-//       <div>
-//         <h1>BANG</h1>
-//       </div>
-//     )
-//   }
-// })
-//
-// ReactDOM.render(
-//   <Title />, document.getElementById('app')
-// )
+var Signup = require('./signup')
 
 module.exports = React.createClass({
+  isLoggedIn: function() {
+    $.ajax({
+    })
+  },
   render: function() {
     $(".button-collapse").sideNav();
     return (
@@ -34,7 +24,7 @@ module.exports = React.createClass({
           </div>
         </nav>
         <div className="container">
-          {this.props.children}
+          {this.props.children || < Signup />}
         </div>
       </div>
     )

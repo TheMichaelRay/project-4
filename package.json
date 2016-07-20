@@ -3,13 +3,17 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "browserify -t [ babelify --presets [ react ] ] public/client/src/index.js -o public/client/build/app.js",
+    "watch": "watchify -t [ babelify --presets [ react ] ] public/client/src/index.js -o public/client/build/app.js"
   },
   "dependencies": {
     "babel-preset-react": "^6.11.1",
     "babelify": "^7.3.0",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "~1.15.1",
+    "browserify": "^13.0.1",
     "cookie-parser": "~1.4.3",
     "cors": "^2.7.1",
     "debug": "~2.2.0",
@@ -17,6 +21,7 @@
     "ejs": "~2.4.1",
     "express": "~4.13.4",
     "express-session": "^1.14.0",
+    "fs": "0.0.2",
     "mongoose": "^4.5.5",
     "morgan": "~1.7.0",
     "passport": "^0.3.2",
@@ -27,7 +32,9 @@
     "serve-favicon": "~2.3.0"
   },
   "main": "server.js",
-  "devDependencies": {},
+  "devDependencies": {
+    "watchify": "^3.7.0"
+  },
   "author": "",
   "license": "ISC",
   "description": ""

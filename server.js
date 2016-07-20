@@ -1,7 +1,13 @@
 var express = require('express');
 var path = require('path');
+var mongoose = require('mongoose');
+var session = require('express-session')
 var favicon = require('serve-favicon');
 var logger = require('morgan');
+var passport = require('passport');
+var passportConfig = require('./config/passport.js');
+var cors = require('cors');
+var dotenv = require('dotenv').load({silent: true})
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 

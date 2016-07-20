@@ -11,6 +11,7 @@ var Login = require('./modules/login')
 var Tweet = require('./modules/tweet')
 var routes = require('./modules/routes')
 var Signup = require('./modules/signup')
+var Search = require('./modules/search')
 var { DefaultRoute, NotFoundRoute, Router, hashHistory, browserHistory, Route, IndexRoute } = require('react-router')
 
 
@@ -20,6 +21,7 @@ ReactDOM.render(
       < Route path='/' component={Title} >
         < IndexRoute component={Signup} data='iiiiiii' />
         < Route path='/fire' component={Fire} />
+        < Route path='/search' component={Search} />
         < Route path='/login' component={Login} />
         < Route path='/tweet' component={Tweet} />
       </Route>

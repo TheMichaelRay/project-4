@@ -25773,6 +25773,7 @@ var Login = require('./modules/login');
 var Tweet = require('./modules/tweet');
 var routes = require('./modules/routes');
 var Signup = require('./modules/signup');
+var Search = require('./modules/search');
 var { DefaultRoute, NotFoundRoute, Router, hashHistory, browserHistory, Route, IndexRoute } = require('react-router');
 
 ReactDOM.render(React.createElement(
@@ -25783,12 +25784,13 @@ ReactDOM.render(React.createElement(
     { path: '/', component: Title },
     React.createElement(IndexRoute, { component: Signup, data: 'iiiiiii' }),
     React.createElement(Route, { path: '/fire', component: Fire }),
+    React.createElement(Route, { path: '/search', component: Search }),
     React.createElement(Route, { path: '/login', component: Login }),
     React.createElement(Route, { path: '/tweet', component: Tweet })
   )
 ), document.getElementById('app'));
 
-},{"./modules/app":236,"./modules/fire":237,"./modules/login":238,"./modules/routes":240,"./modules/signup":241,"./modules/tweet":242,"react":232,"react-dom":52,"react-router":82}],236:[function(require,module,exports){
+},{"./modules/app":236,"./modules/fire":237,"./modules/login":238,"./modules/routes":240,"./modules/search":241,"./modules/signup":242,"./modules/tweet":243,"react":232,"react-dom":52,"react-router":82}],236:[function(require,module,exports){
 var React = require('react');
 var Nav = require('./nav');
 var Signup = require('./signup');
@@ -25833,7 +25835,7 @@ module.exports = React.createClass({
   }
 });
 
-},{"./nav":239,"./signup":241,"react":232}],237:[function(require,module,exports){
+},{"./nav":239,"./signup":242,"react":232}],237:[function(require,module,exports){
 var React = require('react');
 
 module.exports = React.createClass({
@@ -25995,11 +25997,6 @@ module.exports = React.createClass({
           'Binjr'
         ),
         React.createElement(
-          'p',
-          null,
-          this.state.user.firstName || 'Sign In'
-        ),
-        React.createElement(
           Link,
           { to: '#', 'data-activates': 'mobile-demo', className: 'button-collapse' },
           React.createElement(
@@ -26018,6 +26015,15 @@ module.exports = React.createClass({
               Link,
               { to: '/fire' },
               'Fire!'
+            )
+          ),
+          React.createElement(
+            'li',
+            null,
+            React.createElement(
+              Link,
+              { to: '/search' },
+              'Search'
             )
           ),
           React.createElement(
@@ -26061,6 +26067,82 @@ module.exports = React.createClass({
 // )
 
 },{}],241:[function(require,module,exports){
+var React = require('react');
+
+var SeriesList = React.createClass({
+  displayName: 'SeriesList',
+
+  render: function () {
+    var seriesNodes = this.props.data.map(function (series) {
+      return React.createElement(
+        'h1',
+        { key: series.imdbID },
+        series.Title
+      );
+    });
+    return React.createElement(
+      'div',
+      { className: 'seriesList' },
+      seriesNodes
+    );
+  }
+});
+
+module.exports = React.createClass({
+  displayName: 'exports',
+
+  getInitialState: function () {
+    return {
+      seriesData: [],
+      search: ''
+    };
+  },
+  searchFill: function (e) {
+    this.setState({ search: e.target.value });
+  },
+  search: function () {
+    var url = 'http://www.omdbapi.com/?s=' + this.state.search + '&&type=series';
+    $.ajax({
+      url: url,
+      type: 'get',
+      success: function (data) {
+        this.setState({ seriesData: data.Search });
+      }.bind(this)
+    });
+  },
+  render: function () {
+    return React.createElement(
+      'div',
+      null,
+      React.createElement(
+        'div',
+        { className: 'row' },
+        React.createElement(
+          'div',
+          { className: 'input-field col s8' },
+          React.createElement('input', { id: 'search', type: 'text', value: this.state.search, onChange: this.searchFill, className: 'validate' }),
+          React.createElement(
+            'label',
+            { htmlFor: 'search' },
+            'Search for Series'
+          )
+        ),
+        React.createElement(
+          'div',
+          { className: 'col s4' },
+          React.createElement(
+            'button',
+            { className: 'btn waves-effect waves-light', onClick: this.search },
+            'Search'
+          )
+        )
+      ),
+      React.createElement(SeriesList, { data: this.state.seriesData })
+    );
+  }
+});
+
+},{"react":232}],242:[function(require,module,exports){
 var React = require('react');
 var { browserHistory } = require('react-router');
 
@@ -26241,7 +26323,7 @@ module.exports = React.createClass({
   }
 });
 
-},{"react":232,"react-router":82}],242:[function(require,module,exports){
+},{"react":232,"react-router":82}],243:[function(require,module,exports){
 var React = require('react');
 
 module.exports = React.createClass({

@@ -60,8 +60,8 @@ module.exports = React.createClass({
     };
     console.log(newUser)
     $.ajax({
-      url: '/users/signup',
-      type: 'POST',
+      url: '/users/testing',
+      type: 'post',
       contentType: "application/json",
       dataType: 'json',
       data: newUser,
@@ -77,7 +77,7 @@ module.exports = React.createClass({
   test: function() {
     $.ajax({
       url: '/users',
-      type: 'GET',
+      type: 'get',
       success: function(data) {
         console.log(data)
       },

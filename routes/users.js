@@ -13,6 +13,9 @@ router.route('/')
     })
   })
 
+// router.post('/signup', function(req, res) {
+//     res.json({success: true})
+//   })
 router.post('/signup', passport.authenticate('local-signup'), function(req, res) {
     if (req.user) {
       res.json(req.user)

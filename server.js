@@ -17,6 +17,7 @@ var history = require('connect-history-api-fallback');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var tweets = require('./routes/tweets');
 
 var app = express();
 
@@ -70,6 +71,7 @@ app.use(function (req, res, next) {
 
 
 app.use('/users', users);
+app.use('/tweets', tweets);
 // middleware for falling back on index url
 // supposed to work but does not
 app.use(history())

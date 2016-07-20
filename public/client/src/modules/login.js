@@ -5,7 +5,7 @@ module.exports = React.createClass({
     return {
       email: '',
       password: '',
-      message: ''
+      currentUser: ''
     }
   },
   email: function(e) {
@@ -30,6 +30,8 @@ module.exports = React.createClass({
       data: user,
       success: function(data){
         console.log('logging in user', data)
+        this.setState({currentUser: data, email: '', password: ''})
+        console.log(this.state)
       }.bind(this),
       error: function() {
         this.setState({message: "Incorrect username or password"});
@@ -40,19 +42,12 @@ module.exports = React.createClass({
   },
 
   // boomerang: function() {
-  //   $.ajax({
-  //     url: '/users/testing',
-  //     type: 'POST',
-  //     data: this.state,
-  //     success: function(data) {
-  //       console.log(data)
-  //     }
-  //   })
+  //   console.log(this.props.data);
   // },
 
   render: function() {
     return (
-      <div>
+      <div data="dataaaa">
         <form className="col s12" onSubmit={this.submit}>
             <div className="input-field col s12">
               <input id="email" type="email" className="validate" value={this.state.email} onChange={this.email}/>

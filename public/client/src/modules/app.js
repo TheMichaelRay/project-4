@@ -1,31 +1,37 @@
 var React = require('react')
-var {Link} = require('react-router')
+var Nav = require('./nav')
 var Signup = require('./signup')
 
 module.exports = React.createClass({
-  isLoggedIn: function() {
+  getInitialState: function() {
+    return {
+      user: false,
+      message: 'hello'
+    }
+  },
+  returnUser: function() {
     $.ajax({
+      url: '/users/profile',
+      type: 'get',
+      success: function(data) {
+        return data
+      },
+      error: function() {
+        console.log(false)
+      }
     })
+  },
+  componentWillMount: function() {
+    this.setState({user: this.returnUser()})
   },
   render: function() {
     $(".button-collapse").sideNav();
+    console.log(this.state)
     return (
       <div>
-        <nav>
-          <div className="nav-wrapper">
-            <Link to="#!" className="brand-logo">Binjr</Link>
-            <Link to="#" data-activates="mobile-demo" className="button-collapse"><i className="material-icons">menu</i></Link>
-            <ul className="right hide-on-med-and-down">
-              <li><Link to="/fire">Fire!</Link></li>
-              <li><Link to="/tweet">Tweet!</Link></li>
-            </ul>
-            <ul className="side-nav" id="mobile-demo">
-              <li><Link to="/fire">Fire!</Link></li>
-            </ul>
-          </div>
-        </nav>
-        <div className="container">
-          {this.props.children || < Signup />}
+        < Nav />
+        <div className="container" >
+          { this.props.children }
         </div>
       </div>
     )

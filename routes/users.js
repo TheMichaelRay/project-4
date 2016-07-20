@@ -44,11 +44,17 @@ router.route('/login')
 //     res.json({success: true})
 //   })
 
-// router.use(isLoggedIn)
-//
-// function isLoggedIn(req, res, next) {
-//   if (req.isAuthenticated()) return next()
-//   res.json({success: false, message: "Not logged in"})
-// }
+router.use(isLoggedIn)
+
+router.get('/profile', function(req, res) {
+  if (req.user) {
+    res.json(req.user)
+  }
+})
+
+function isLoggedIn(req, res, next) {
+  if (req.isAuthenticated()) return next()
+  res.json({success: false, message: "Not logged in"})
+}
 
 module.exports = router;

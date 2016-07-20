@@ -25772,7 +25772,8 @@ var Fire = require('./modules/fire');
 var Login = require('./modules/login');
 var Tweet = require('./modules/tweet');
 var routes = require('./modules/routes');
-var { DefaultRoute, NotFoundRoute, Router, hashHistory, browserHistory, Route } = require('react-router');
+var Signup = require('./modules/signup');
+var { DefaultRoute, NotFoundRoute, Router, hashHistory, browserHistory, Route, IndexRoute } = require('react-router');
 
 ReactDOM.render(React.createElement(
   Router,
@@ -25780,95 +25781,59 @@ ReactDOM.render(React.createElement(
   React.createElement(
     Route,
     { path: '/', component: Title },
+    React.createElement(IndexRoute, { component: Signup, data: 'iiiiiii' }),
     React.createElement(Route, { path: '/fire', component: Fire }),
     React.createElement(Route, { path: '/login', component: Login }),
     React.createElement(Route, { path: '/tweet', component: Tweet })
   )
 ), document.getElementById('app'));
 
-},{"./modules/app":236,"./modules/fire":237,"./modules/login":238,"./modules/routes":239,"./modules/tweet":241,"react":232,"react-dom":52,"react-router":82}],236:[function(require,module,exports){
+},{"./modules/app":236,"./modules/fire":237,"./modules/login":238,"./modules/routes":240,"./modules/signup":241,"./modules/tweet":242,"react":232,"react-dom":52,"react-router":82}],236:[function(require,module,exports){
 var React = require('react');
-var { Link } = require('react-router');
+var Nav = require('./nav');
 var Signup = require('./signup');
 
 module.exports = React.createClass({
   displayName: 'exports',
 
-  isLoggedIn: function () {
-    $.ajax({});
+  getInitialState: function () {
+    return {
+      user: false,
+      message: 'hello'
+    };
+  },
+  returnUser: function () {
+    $.ajax({
+      url: '/users/profile',
+      type: 'get',
+      success: function (data) {
+        return data;
+      },
+      error: function () {
+        console.log(false);
+      }
+    });
+  },
+  componentWillMount: function () {
+    this.setState({ user: this.returnUser() });
   },
   render: function () {
     $(".button-collapse").sideNav();
+    console.log(this.state);
     return React.createElement(
       'div',
       null,
-      React.createElement(
-        'nav',
-        null,
-        React.createElement(
-          'div',
-          { className: 'nav-wrapper' },
-          React.createElement(
-            Link,
-            { to: '#!', className: 'brand-logo' },
-            'Binjr'
-          ),
-          React.createElement(
-            Link,
-            { to: '#', 'data-activates': 'mobile-demo', className: 'button-collapse' },
-            React.createElement(
-              'i',
-              { className: 'material-icons' },
-              'menu'
-            )
-          ),
-          React.createElement(
-            'ul',
-            { className: 'right hide-on-med-and-down' },
-            React.createElement(
-              'li',
-              null,
-              React.createElement(
-                Link,
-                { to: '/fire' },
-                'Fire!'
-              )
-            ),
-            React.createElement(
-              'li',
-              null,
-              React.createElement(
-                Link,
-                { to: '/tweet' },
-                'Tweet!'
-              )
-            )
-          ),
-          React.createElement(
-            'ul',
-            { className: 'side-nav', id: 'mobile-demo' },
-            React.createElement(
-              'li',
-              null,
-              React.createElement(
-                Link,
-                { to: '/fire' },
-                'Fire!'
-              )
-            )
-          )
-        )
-      ),
+      React.createElement(Nav, null),
       React.createElement(
         'div',
         { className: 'container' },
-        this.props.children || React.createElement(Signup, null)
+        this.props.children
       )
     );
   }
 });
 
-},{"./signup":240,"react":232,"react-router":82}],237:[function(require,module,exports){
+},{"./nav":239,"./signup":241,"react":232}],237:[function(require,module,exports){
 var React = require('react');
 
 module.exports = React.createClass({
@@ -25912,7 +25877,7 @@ module.exports = React.createClass({
     return {
       email: '',
       password: '',
-      message: ''
+      currentUser: ''
     };
   },
   email: function (e) {
@@ -25937,6 +25902,8 @@ module.exports = React.createClass({
       data: user,
       success: function (data) {
         console.log('logging in user', data);
+        this.setState({ currentUser: data, email: '', password: '' });
+        console.log(this.state);
       }.bind(this),
       error: function () {
         this.setState({ message: "Incorrect username or password" });
@@ -25947,20 +25914,13 @@ module.exports = React.createClass({
   },
 
   // boomerang: function() {
-  //   $.ajax({
-  //     url: '/users/testing',
-  //     type: 'POST',
-  //     data: this.state,
-  //     success: function(data) {
-  //       console.log(data)
-  //     }
-  //   })
+  //   console.log(this.props.data);
   // },
 
   render: function () {
     return React.createElement(
       'div',
-      null,
+      { data: 'dataaaa' },
       React.createElement(
         'form',
         { className: 'col s12', onSubmit: this.submit },
@@ -26000,18 +25960,107 @@ module.exports = React.createClass({
 });
 
 },{"react":232}],239:[function(require,module,exports){
+var { Link } = require('react-router');
 var React = require('react');
-var { DefaultRoute, NotFoundRoute, Route } = require('react-router');
-var Test = require('./app');
-var Fire = require('./fire');
 
-module.exports = React.createElement(
-  Route,
-  { path: '/', component: Test },
-  React.createElement(Route, { path: '/fire', component: Fire })
-);
+module.exports = React.createClass({
+  displayName: 'exports',
 
-},{"./app":236,"./fire":237,"react":232,"react-router":82}],240:[function(require,module,exports){
+  getInitialState: function () {
+    return { user: false };
+  },
+  loadUser: function () {
+    $.ajax({
+      url: '/users/profile',
+      type: 'get',
+      success: function (data) {
+        this.setState({ user: data });
+      }.bind(this)
+    });
+  },
+  componentDidMount: function () {
+    this.loadUser;
+    // setInterval(this.loadUser, 4000)
+  },
+  render: function () {
+    return React.createElement(
+      'nav',
+      null,
+      React.createElement(
+        'div',
+        { className: 'nav-wrapper' },
+        React.createElement(
+          Link,
+          { to: '#!', className: 'brand-logo' },
+          'Binjr'
+        ),
+        React.createElement(
+          'p',
+          null,
+          this.state.user.firstName || 'Sign In'
+        ),
+        React.createElement(
+          Link,
+          { to: '#', 'data-activates': 'mobile-demo', className: 'button-collapse' },
+          React.createElement(
+            'i',
+            { className: 'material-icons' },
+            'menu'
+          )
+        ),
+        React.createElement(
+          'ul',
+          { className: 'right hide-on-med-and-down' },
+          React.createElement(
+            'li',
+            null,
+            React.createElement(
+              Link,
+              { to: '/fire' },
+              'Fire!'
+            )
+          ),
+          React.createElement(
+            'li',
+            null,
+            React.createElement(
+              Link,
+              { to: '/tweet' },
+              'Tweet!'
+            )
+          )
+        ),
+        React.createElement(
+          'ul',
+          { className: 'side-nav', id: 'mobile-demo' },
+          React.createElement(
+            'li',
+            null,
+            React.createElement(
+              Link,
+              { to: '/fire' },
+              'Fire!'
+            )
+          )
+        )
+      )
+    );
+  }
+});
+
+},{"react":232,"react-router":82}],240:[function(require,module,exports){
+// var React = require('react')
+// var {DefaultRoute, NotFoundRoute, Route} = require('react-router')
+// var Test = require('./app')
+// var Fire = require('./fire')
+//
+// module.exports = (
+//   <Route path="/" component={Test}>
+//     <Route path="/fire" component={Fire} />
+//   </Route>
+// )
+
+},{}],241:[function(require,module,exports){
 var React = require('react');
 var { browserHistory } = require('react-router');
 
@@ -26080,25 +26129,26 @@ module.exports = React.createClass({
     });
     this.setState({ firstName: '', lastName: '', email: '', age: '', password: '', avatar: '', bio: '' });
   },
-  // test: function() {
-  //   var testUser = {
-  //     "local.email": "testing@ga.co",
-  //     "local.password": "password",
-  //     "age": 9999,
-  //     "firstName": "Jimmy",
-  //     "lastName": "Jamz"
-  //   }
-  //   $.post({
-  //     url: '/users/signup',
-  //     data: testUser,
-  //     success: function(data) {
-  //       console.log(data)
-  //     },
-  //     error: function(xhr, status, err) {
-  //       console.error(this.props.url, status, err.toString())
-  //     }.bind(this)
-  //   })
-  // },
+  test: function () {
+    console.log(this.props);
+    // var testUser = {
+    //   "local.email": "testing@ga.co",
+    //   "local.password": "password",
+    //   "age": 9999,
+    //   "firstName": "Jimmy",
+    //   "lastName": "Jamz"
+    // }
+    // $.post({
+    //   url: '/users/signup',
+    //   data: testUser,
+    //   success: function(data) {
+    //     console.log(data)
+    //   },
+    //   error: function(xhr, status, err) {
+    //     console.error(this.props.url, status, err.toString())
+    //   }.bind(this)
+    // })
+  },
   render: function () {
     return React.createElement(
       'div',
@@ -26191,7 +26241,7 @@ module.exports = React.createClass({
   }
 });
 
-},{"react":232,"react-router":82}],241:[function(require,module,exports){
+},{"react":232,"react-router":82}],242:[function(require,module,exports){
 var React = require('react');
 
 module.exports = React.createClass({

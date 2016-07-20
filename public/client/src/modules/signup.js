@@ -64,25 +64,26 @@ module.exports = React.createClass({
     })
     this.setState({firstName: '', lastName: '', email: '', age: '', password: '', avatar: '', bio: ''})
   },
-  // test: function() {
-  //   var testUser = {
-  //     "local.email": "testing@ga.co",
-  //     "local.password": "password",
-  //     "age": 9999,
-  //     "firstName": "Jimmy",
-  //     "lastName": "Jamz"
-  //   }
-  //   $.post({
-  //     url: '/users/signup',
-  //     data: testUser,
-  //     success: function(data) {
-  //       console.log(data)
-  //     },
-  //     error: function(xhr, status, err) {
-  //       console.error(this.props.url, status, err.toString())
-  //     }.bind(this)
-  //   })
-  // },
+  test: function() {
+    console.log(this.props)
+    // var testUser = {
+    //   "local.email": "testing@ga.co",
+    //   "local.password": "password",
+    //   "age": 9999,
+    //   "firstName": "Jimmy",
+    //   "lastName": "Jamz"
+    // }
+    // $.post({
+    //   url: '/users/signup',
+    //   data: testUser,
+    //   success: function(data) {
+    //     console.log(data)
+    //   },
+    //   error: function(xhr, status, err) {
+    //     console.error(this.props.url, status, err.toString())
+    //   }.bind(this)
+    // })
+  },
   render: function() {
     return (
       <div>

@@ -43,9 +43,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // establishes session settings to keep users logged in
 app.use(session ({
-  cookie: {_expires:60000000},
-  secret: "chill",
-  resave: true,
+  secret: "dope",
+  resave: false,
   saveUninitialized: false
 }))
 // middleware for logging in and verifying users
@@ -71,6 +70,7 @@ app.use(function (req, res, next) {
 
 
 app.use('/users', users);
+
 app.use('/tweets', tweets);
 // middleware for falling back on index url
 // supposed to work but does not

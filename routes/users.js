@@ -22,7 +22,7 @@ router.post('/signup', passport.authenticate('local-signup'), function(req, res)
   })
 
 router.post('/testing', function(req, res) {
-  res.json({success: true})
+  res.json({message: req.body})
 })
 
 // router.route('/login')

@@ -25761,6 +25761,7 @@ module.exports = function (str) {
 arguments[4][46][0].apply(exports,arguments)
 },{"_process":50,"dup":46}],235:[function(require,module,exports){
 // this is the entry point for the front end...
+// make sure `npm run watch` is running to track and bundle changes
 
 
 var React = require('react');
@@ -25941,10 +25942,12 @@ module.exports = React.createClass({
     this.setState({ email: '', password: '' });
   },
 
-  getUsers: function () {
+  boomerang: function () {
+    // console.log(this.state)
     $.ajax({
       url: '/users/testing',
       type: 'POST',
+      data: this.state,
       success: function (data) {
         console.log(data);
       }
@@ -25985,7 +25988,7 @@ module.exports = React.createClass({
         ),
         React.createElement(
           'button',
-          { className: 'btn waves-effect waves-light', type: 'button', onClick: this.getUsers },
+          { className: 'btn waves-effect waves-light', type: 'button', onClick: this.boomerang },
           'Test'
         )
       )

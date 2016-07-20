@@ -37,10 +37,12 @@ module.exports = React.createClass({
     this.setState({email: '', password: ''})
   },
 
-  getUsers: function() {
+  boomerang: function() {
+    // console.log(this.state)
     $.ajax({
       url: '/users/testing',
       type: 'POST',
+      data: this.state,
       success: function(data) {
         console.log(data)
       }
@@ -62,7 +64,7 @@ module.exports = React.createClass({
             <button className="btn waves-effect waves-light" type="submit">
               Submit
             </button>
-            <button className="btn waves-effect waves-light" type="button" onClick={this.getUsers}>
+            <button className="btn waves-effect waves-light" type="button" onClick={this.boomerang}>
               Test
             </button>
         </form>

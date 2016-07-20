@@ -25760,6 +25760,9 @@ module.exports = function (str) {
 },{}],234:[function(require,module,exports){
 arguments[4][46][0].apply(exports,arguments)
 },{"_process":50,"dup":46}],235:[function(require,module,exports){
+// this is the entry point for the front end...
+
+
 var React = require('react');
 var Router = require('react-router');
 var ReactDOM = require('react-dom');
@@ -25767,8 +25770,17 @@ var Title = require('./modules/app');
 var Fire = require('./modules/fire');
 var Login = require('./modules/login');
 var routes = require('./modules/routes');
-var { DefaultRoute, NotFoundRoute, Router, hashHistory, Route } = require('react-router');
+var { DefaultRoute, NotFoundRoute, Router, hashHistory, browserHistory, Route } = require('react-router');
 
+// ReactDOM.render(
+//     <Router history={browserHistory}>
+//       < Route path='/' component={Title} >
+//         < Route path='/fire' component={Fire} />
+//         < Route path='/login' component={Login} />
+//       </Route>
+//     </Router>,
+//   document.getElementById('app')
+// )
 ReactDOM.render(React.createElement(
   Router,
   { history: hashHistory },

@@ -11,6 +11,9 @@ var dotenv = require('dotenv').load({silent: true})
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var http = require('http');
+// supposed to fall-back url for SPA
+// doesnt work
+var history = require('connect-history-api-fallback');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -35,6 +38,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
 
 // establishes session settings to keep users logged in
 app.use(session ({
@@ -66,7 +70,10 @@ app.use(function (req, res, next) {
 
 
 app.use('/users', users);
-app.use('*', function(req, res) {
+// middleware for falling back on index url
+// supposed to work but does not
+app.use(history())
+app.use('/', function(req, res) {
   res.sendFile('index.html')
 });
 

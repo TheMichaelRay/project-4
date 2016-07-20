@@ -36,56 +36,53 @@ module.exports = React.createClass({
   },
   submit: function(e) {
     e.preventDefault();
-    var firstName = this.state.firstName.trim();
-    var lastName = this.state.lastName.trim();
-    var email = this.state.email.trim();
-    var age = Number(this.state.age);
-    var password = this.state.password
-    var avatar = this.state.avatar.trim()
-    var bio = this.state.bio.trim()
-    if (!firstName || !lastName || !email || age < 18 || !Number(age) || !password ) {
+    var newUser = {};
+    newUser["local.email"] = this.state.email.trim();
+    newUser["local.password"] = this.state.password;
+    newUser["age"] = Number(this.state.age);
+    newUser["firstName"] = this.state.firstName.trim();
+    newUser["lastName"] = this.state.lastName.trim();
+    newUser["bio"] = this.state.bio.trim();
+    newUser["avatar"] = this.state.avatar.trim();
+    if (!newUser.firstName || !newUser.lastName || !newUser.local.email || newUser.age < 18 || !Number(newUser.age) || !newUser.local.password ) {
+      console.log('inside the if');
       return;
     }
-    var local = {
-      email: email,
-      password: password
-    }
-    var newUser = {
-      local: local,
-      firstName: firstName,
-      lastName: lastName,
-      age: age,
-      avatar: avatar,
-      bio: bio
-    };
-    console.log(newUser)
-    $.ajax({
-      url: '/users/testing',
-      type: 'post',
-      contentType: "application/json",
-      dataType: 'json',
+    console.log(newUser, "trying to be created")
+    $.post({
+      url: '/users/signup',
+      // contentType: "application/json",
+      // dataType: "json",
+      // data: JSON.stringify(newUser),
       data: newUser,
       success: function(data){
-        console.log('receiving from db', data)
-      }.bind(this),
+        console.log('receiving from /users/login', data)
+      },
       error: function(xhr, status, err) {
         console.error(this.props.url, status, err.toString())
       }.bind(this)
     })
     this.setState({firstName: '', lastName: '', email: '', age: '', password: '', avatar: '', bio: ''})
   },
-  test: function() {
-    $.ajax({
-      url: '/users',
-      type: 'get',
-      success: function(data) {
-        console.log(data)
-      },
-      error: function(xhr, status, err) {
-        console.error(this.props.url, status, err.toString())
-      }.bind(this)
-    })
-  },
+  // test: function() {
+  //   var testUser = {
+  //     "local.email": "testing@ga.co",
+  //     "local.password": "password",
+  //     "age": 9999,
+  //     "firstName": "Jimmy",
+  //     "lastName": "Jamz"
+  //   }
+  //   $.post({
+  //     url: '/users/signup',
+  //     data: testUser,
+  //     success: function(data) {
+  //       console.log(data)
+  //     },
+  //     error: function(xhr, status, err) {
+  //       console.error(this.props.url, status, err.toString())
+  //     }.bind(this)
+  //   })
+  // },
   render: function() {
     return (
       <div>

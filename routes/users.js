@@ -17,30 +17,32 @@ router.route('/')
 //     res.json({success: true})
 //   })
 router.post('/signup', passport.authenticate('local-signup'), function(req, res) {
+  // console.log("inside of users signup");
+  // console.log(req.body)
     if (req.user) {
-      res.json(req.user)
+      res.json({message: req.user, created: true})
     } else {
       res.json({success: false, message: "Unable to create user"})
     }
   })
 
-router.post('/testing', function(req, res) {
-  res.json({message: req.body})
-})
-
-// router.route('/login')
-//   .post(passport.authenticate('local-login'), function(req, res) {
-//     if (req.user) {
-//       res.json(req.user)
-//     } else {
-//       res.json({success: false, message: "Unable to verify user"})
-//     }
-//   })
+// router.post('/testing', function(req, res) {
+//   res.json({message: req.body})
+// })
 
 router.route('/login')
-  .post(function(req, res) {
-    res.json({success: true})
+  .post(passport.authenticate('local-login'), function(req, res) {
+    if (req.user) {
+      res.json(req.user)
+    } else {
+      res.json({success: false, message: "Unable to verify user"})
+    }
   })
+
+// router.route('/login')
+//   .post(function(req, res) {
+//     res.json({success: true})
+//   })
 
 router.use(isLoggedIn)
 

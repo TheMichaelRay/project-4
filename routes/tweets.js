@@ -9,6 +9,12 @@ tweetRouter.route('/')
       res.json(data)
     })
   })
+  .post(function(req, res) {
+    Tweet.create(req.body, function(err, tweet) {
+      if (err) throw err;
+      res.json({newTweet: tweet, success: true})
+    })
+  })
 
 
 module.exports = tweetRouter

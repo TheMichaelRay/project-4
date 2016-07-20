@@ -16,6 +16,13 @@ var users = require('./routes/users');
 
 var app = express();
 
+// initializes mongodb
+mongoose.connect('mongodb://localhost/binjr', function(err) {
+  if (err) throw err;
+  console.log('Connected to mongodb (binjr)')
+})
+
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -38,7 +45,6 @@ app.use(function(req, res, next) {
   next(err);
 });
 
-// error handlers
 
 // development error handler
 // will print stacktrace

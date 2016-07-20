@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var passport = require('passport');
 // var mongoose = require('mongoose');
 var User = require('../models/User.js');
 
@@ -10,14 +11,15 @@ router.route('/')
       if (err) throw err;
       res.json(users)
     })
-  });
-  .post(passport.authenticate('local-signup'), function(req, res) {
+  })
+
+router.post('/signup', passport.authenticate('local-signup'), function(req, res) {
     if (req.user) {
       res.json(req.user)
     } else {
       res.json({success: false, message: "Unable to create user"})
     }
-  }))
+  })
 
 router.route('/login')
   .post(passport.authenticate('local-login'), function(req, res) {

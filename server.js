@@ -35,6 +35,27 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// middleware for logging in and verifying users
+app.use(passport.initialize())
+app.use(passport.session())
+
+//CORS middleware for requesting from 3rd party API
+app.use(cors())
+app.use(function (req, res, next) {
+   res.header('Cache-Control', 'no-cache, no-store, must-revalidate');
+   res.header('Pragma', 'no-cache');
+   res.header('Expires', 0 );
+   res.header('Access-Control-Allow-Origin', '*');
+   res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS');
+   res.header('Access-Control-Allow-Headers', 'Content-Type');
+   if (req.method === 'Options') {
+     res.send(200);
+   } else {
+     return next();
+   }
+ })
+
+
 app.use('/', routes);
 app.use('/users', users);
 

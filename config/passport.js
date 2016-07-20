@@ -1,6 +1,7 @@
 var
   passport = require('passport'),
   LocalStrategy = require('passport-local').Strategy;
+  User = require('../models/User.js')
 
 
 passport.serializeUser(function (user, done) {
@@ -14,16 +15,19 @@ passport.deserializeUser(function (id, done) {
 })
 
 passport.use('local-signup', new LocalStrategy({
-  usernameField: 'email',
-  passwordField: 'password',
+  usernameField: 'local.email',
+  passwordField: 'local.password',
   passReqToCallback: true
   }, function (req, email, password, done) {
     User.findOne({'local.email': email}, function (err, user) {
       if (err) return done(err)
-      if (user) return done(null, false, req.flash('signupMessage', 'That email is already in use.'))
+      if (user) return done(null, false)
       var newUser = new User()
       newUser.firstName = req.body.firstName
       newUser.lastName = req.body.lastName
+      newUser.age = req.body.age
+      if (req.body.bio) newUser.bio = req.body.bio
+      if (req.body.avatar) newUser.avatar = req.body.avatar
       newUser.local.email = email
       // export MD5 package into passport file to MD5(email) and concat string to have image url set in avatar value
       // newUser.local.avatar = "http://gravatar.com/avatar/" + MD5(email) + "?s=600"
@@ -43,7 +47,7 @@ passport.use('local-login', new LocalStrategy({
   }, function (req, email, password, done) {
     User.findOne({'local.email': email}, function (err, user) {
       if (err) return done(err)
-      if(!user) return done(null, false, req.flash('loginMessage', 'User not found'))
+      if(!user) return done(null, false)
       if (!user.validPassword(password)) return done(null, false, req.flash('loginMessage', 'Incorrect password...'))
       return done(null, user)
     })

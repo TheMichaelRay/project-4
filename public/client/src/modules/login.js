@@ -4,7 +4,8 @@ module.exports = React.createClass({
   getInitialState: function() {
     return {
       email: '',
-      password: ''
+      password: '',
+      message: ''
     }
   },
   email: function(e) {
@@ -15,39 +16,39 @@ module.exports = React.createClass({
   },
   submit: function(e) {
     e.preventDefault();
-    var email = this.state.email.trim();
-    var password = this.state.password
-    if (!email || !password ) {
+    var user = {}
+    // user.local = {}
+    user["local.email"] = this.state.email.trim();
+    user["local.password"] = this.state.password;
+    if (!user["local.email"] || !user["local.password"] ) {
       return;
     }
-    console.log(this.state)
+    console.log(user)
     $.ajax({
       url: '/users/login',
       type: 'POST',
-      dataType: 'json',
-      contentType: "application/json",
-      data: this.state,
+      data: user,
       success: function(data){
-        console.log('receiving from db', data)
+        console.log('logging in user', data)
       }.bind(this),
-      error: function(xhr, status, err) {
-        console.error(this.props.url, status, err.toString())
+      error: function() {
+        this.setState({message: "Incorrect username or password"});
+        console.log(this.state.message)
       }.bind(this)
     })
-    this.setState({email: '', password: ''})
+    // this.setState({})
   },
 
-  boomerang: function() {
-    // console.log(this.state)
-    $.ajax({
-      url: '/users/testing',
-      type: 'POST',
-      data: this.state,
-      success: function(data) {
-        console.log(data)
-      }
-    })
-  },
+  // boomerang: function() {
+  //   $.ajax({
+  //     url: '/users/testing',
+  //     type: 'POST',
+  //     data: this.state,
+  //     success: function(data) {
+  //       console.log(data)
+  //     }
+  //   })
+  // },
 
   render: function() {
     return (

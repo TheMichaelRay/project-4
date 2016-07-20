@@ -13,15 +13,6 @@ var routes = require('./modules/routes')
 var { DefaultRoute, NotFoundRoute, Router, hashHistory, browserHistory, Route } = require('react-router')
 
 
-// ReactDOM.render(
-//     <Router history={browserHistory}>
-//       < Route path='/' component={Title} >
-//         < Route path='/fire' component={Fire} />
-//         < Route path='/login' component={Login} />
-//       </Route>
-//     </Router>,
-//   document.getElementById('app')
-// )
 ReactDOM.render(
     <Router history={hashHistory}>
       < Route path='/' component={Title} >

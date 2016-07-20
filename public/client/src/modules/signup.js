@@ -44,7 +44,7 @@ module.exports = React.createClass({
     newUser["lastName"] = this.state.lastName.trim();
     newUser["bio"] = this.state.bio.trim();
     newUser["avatar"] = this.state.avatar.trim();
-    if (!newUser.firstName || !newUser.lastName || !newUser.local.email || newUser.age < 18 || !Number(newUser.age) || !newUser.local.password ) {
+    if (!newUser["firstName"] || !newUser["lastName"] || !newUser["local.email"] || newUser["age"] < 18 || !Number(newUser["age"]) || !newUser["local.password"] ) {
       console.log('inside the if');
       return;
     }

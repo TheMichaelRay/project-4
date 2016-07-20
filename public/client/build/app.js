@@ -25760,18 +25760,6 @@ module.exports = function (str) {
 },{}],234:[function(require,module,exports){
 arguments[4][46][0].apply(exports,arguments)
 },{"_process":50,"dup":46}],235:[function(require,module,exports){
-// var React = require('react')
-// var render = require('react-dom').render
-// var reactRouter = require('react-router'),
-//   Router = reactRouter.Router,
-//   browserHistory = reactRouter.browserHistory
-// var routes = require('./modules/routes')
-//
-// render((
-//   <Router routes={routes} history={browserHistory}/>
-// ), document.getElementById('app'))
-
-
 var React = require('react');
 var Router = require('react-router');
 var ReactDOM = require('react-dom');
@@ -25780,19 +25768,20 @@ var Fire = require('./modules/fire');
 var routes = require('./modules/routes');
 var { DefaultRoute, NotFoundRoute, Router, hashHistory, Route } = require('react-router');
 
-// Router.run(routes, Router.HistoryLocation, function(Handler, state) {
-//   React.render(<Handler/>, document.getElementById())
-// })
-//
 ReactDOM.render(React.createElement(
   Router,
   { history: hashHistory },
-  React.createElement(Route, { path: '/', component: Title }),
-  React.createElement(Route, { path: '/fire', component: Fire })
+  React.createElement(
+    Route,
+    { path: '/', component: Title },
+    React.createElement(Route, { path: '/fire', component: Fire })
+  )
 ), document.getElementById('app'));
 
 },{"./modules/app":236,"./modules/fire":237,"./modules/routes":238,"react":232,"react-dom":52,"react-router":82}],236:[function(require,module,exports){
 var React = require('react');
+var { Link } = require('react-router');
+
 //
 // var Title = React.createClass({
 //   render: function() {
@@ -25812,24 +25801,83 @@ module.exports = React.createClass({
   displayName: 'exports',
 
   render: function () {
+    $(".button-collapse").sideNav();
     return React.createElement(
       'div',
       null,
       React.createElement(
-        'h1',
+        'nav',
         null,
-        'Bang'
+        React.createElement(
+          'div',
+          { className: 'nav-wrapper' },
+          React.createElement(
+            Link,
+            { to: '#!', className: 'brand-logo' },
+            'Binjr'
+          ),
+          React.createElement(
+            Link,
+            { to: '#', 'data-activates': 'mobile-demo', className: 'button-collapse' },
+            React.createElement(
+              'i',
+              { className: 'material-icons' },
+              'menu'
+            )
+          ),
+          React.createElement(
+            'ul',
+            { className: 'right hide-on-med-and-down' },
+            React.createElement(
+              'li',
+              null,
+              React.createElement(
+                Link,
+                { to: '/fire' },
+                'Fire!'
+              )
+            )
+          ),
+          React.createElement(
+            'ul',
+            { className: 'side-nav', id: 'mobile-demo' },
+            React.createElement(
+              'li',
+              null,
+              React.createElement(
+                Link,
+                { to: '/fire' },
+                'Fire!'
+              )
+            )
+          )
+        )
+      ),
+      React.createElement(
+        'div',
+        { className: 'container' },
+        this.props.children
       )
     );
   }
 });
 
-},{"react":232}],237:[function(require,module,exports){
+},{"react":232,"react-router":82}],237:[function(require,module,exports){
 var React = require('react');
 
 module.exports = React.createClass({
   displayName: 'exports',
 
+  test: function () {
+    console.log("Testing");
+    $.ajax({
+      url: '/users',
+      type: 'GET',
+      success: function (data) {
+        console.log(data);
+      }
+    });
+  },
   render: function () {
     return React.createElement(
       'div',
@@ -25838,6 +25886,11 @@ module.exports = React.createClass({
         'h1',
         null,
         'Welcome to the Jungle!'
+      ),
+      React.createElement(
+        'button',
+        { className: 'waves-effect waves-light btn', onClick: this.test },
+        'Click!'
       )
     );
   }

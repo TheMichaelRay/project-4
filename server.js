@@ -35,6 +35,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// establishes session settings to keep users logged in
+app.use(session ({
+  cookie: {_expires:60000000},
+  secret: "chill",
+  resave: true,
+  saveUninitialized: false
+}))
 // middleware for logging in and verifying users
 app.use(passport.initialize())
 app.use(passport.session())

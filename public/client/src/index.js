@@ -14,14 +14,19 @@ var React = require('react')
 var Router = require('react-router')
 var ReactDOM = require('react-dom')
 var Title = require('./modules/app')
+var Fire = require('./modules/fire')
+var routes = require('./modules/routes')
+var { DefaultRoute, NotFoundRoute, Router, hashHistory, Route } = require('react-router')
 
-// var routes = require('./routes')
-//
+
 // Router.run(routes, Router.HistoryLocation, function(Handler, state) {
 //   React.render(<Handler/>, document.getElementById())
 // })
-
+//
 ReactDOM.render(
-    < Title />,
+    <Router history={hashHistory}>
+      < Route path='/' component={Title} />
+      < Route path='/fire' component={Fire} />
+    </Router>,
   document.getElementById('app')
 )

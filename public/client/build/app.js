@@ -25776,16 +25776,22 @@ var React = require('react');
 var Router = require('react-router');
 var ReactDOM = require('react-dom');
 var Title = require('./modules/app');
+var Fire = require('./modules/fire');
+var routes = require('./modules/routes');
+var { DefaultRoute, NotFoundRoute, Router, hashHistory, Route } = require('react-router');
 
-// var routes = require('./routes')
-//
 // Router.run(routes, Router.HistoryLocation, function(Handler, state) {
 //   React.render(<Handler/>, document.getElementById())
 // })
+//
+ReactDOM.render(React.createElement(
+  Router,
+  { history: hashHistory },
+  React.createElement(Route, { path: '/', component: Title }),
+  React.createElement(Route, { path: '/fire', component: Fire })
+), document.getElementById('app'));
 
-ReactDOM.render(React.createElement(Title, null), document.getElementById('app'));
-
-},{"./modules/app":236,"react":232,"react-dom":52,"react-router":82}],236:[function(require,module,exports){
+},{"./modules/app":236,"./modules/fire":237,"./modules/routes":238,"react":232,"react-dom":52,"react-router":82}],236:[function(require,module,exports){
 var React = require('react');
 //
 // var Title = React.createClass({
@@ -25818,4 +25824,35 @@ module.exports = React.createClass({
   }
 });
 
-},{"react":232}]},{},[235]);
+},{"react":232}],237:[function(require,module,exports){
+var React = require('react');
+
+module.exports = React.createClass({
+  displayName: 'exports',
+
+  render: function () {
+    return React.createElement(
+      'div',
+      null,
+      React.createElement(
+        'h1',
+        null,
+        'Welcome to the Jungle!'
+      )
+    );
+  }
+});
+
+},{"react":232}],238:[function(require,module,exports){
+var React = require('react');
+var { DefaultRoute, NotFoundRoute, Route } = require('react-router');
+var Test = require('./app');
+var Fire = require('./fire');
+
+module.exports = React.createElement(
+  Route,
+  { path: '/', component: Test },
+  React.createElement(Route, { path: '/fire', component: Fire })
+);
+
+},{"./app":236,"./fire":237,"react":232,"react-router":82}]},{},[235]);

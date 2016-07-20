@@ -10,6 +10,7 @@ var cors = require('cors');
 var dotenv = require('dotenv').load({silent: true})
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var http = require('http');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -24,8 +25,8 @@ mongoose.connect('mongodb://localhost/binjr', function(err) {
 
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'html');
+// app.set('views', path.join(__dirname, 'views'));
+// app.set('view engine', 'html');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -95,6 +96,7 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
+
 
 var PORT = process.env.PORT || 3000
 app.listen(PORT, function(err) {

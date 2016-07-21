@@ -16,5 +16,24 @@ reviewRouter.route('/')
     })
   })
 
+reviewRouter.route('/:id')
+  .get(function(req, res) {
+    Review.findById(req.params.id, function(err, review) {
+      if (err) throw err;
+      res.json({success: true, review: review})
+    })
+  })
+  .delete(function(req, res) {
+    Review.findByIdAndRemove(req.params.id, function(err, review) {
+      if (err) throw err;
+      res.json({success: true, review: review})
+    })
+  })
+  .patch(function(req, res) {
+    Review.findByIdAndUpdate(req.params.id, req.body, {new: true}, function(err, review) {
+      if (err) throw err;
+      res.json({success: true, review: review})
+    })
+  })
 
 module.exports = reviewRouter

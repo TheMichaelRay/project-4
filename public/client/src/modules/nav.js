@@ -25,9 +25,9 @@ module.exports = React.createClass({
           <Link to="#!" className="brand-logo">Binjr</Link>
           <Link to="#" data-activates="mobile-demo" className="button-collapse"><i className="material-icons">menu</i></Link>
           <ul className="right hide-on-med-and-down">
-            <li><Link to="/login">Log In!</Link></li>
             <li><Link to="/search">Search</Link></li>
-            <li><Link to="/review">Review!</Link></li>
+            <li><Link to="/review">Review</Link></li>
+            <li><Link to="/login">Log In</Link></li>
             <li><Link to="/logout">Logout</Link></li>
           </ul>
           <ul className="side-nav" id="mobile-demo">

@@ -43,7 +43,7 @@ module.exports = React.createClass({
         } else {
           console.log('redirecting....')
           // deprecated method
-          this.props.history.push('/')
+          this.props.history.push('/login')
         }
       }.bind(this)
     })

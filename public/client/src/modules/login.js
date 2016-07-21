@@ -1,4 +1,6 @@
 var React = require('react')
+var {Link} = require('react-router')
+
 
 module.exports = React.createClass({
   getInitialState: function() {
@@ -17,7 +19,6 @@ module.exports = React.createClass({
   submit: function(e) {
     e.preventDefault();
     var user = {}
-    // user.local = {}
     user["local.email"] = this.state.email.trim();
     user["local.password"] = this.state.password;
     if (!user["local.email"] || !user["local.password"] ) {
@@ -29,25 +30,18 @@ module.exports = React.createClass({
       type: 'POST',
       data: user,
       success: function(data){
-        console.log('logging in user', data)
-        this.setState({currentUser: data, email: '', password: ''})
-        console.log(this.state)
+        this.props.history.push('/')
       }.bind(this),
       error: function() {
         this.setState({message: "Incorrect username or password"});
         console.log(this.state.message)
       }.bind(this)
     })
-    // this.setState({})
   },
-
-  // boomerang: function() {
-  //   console.log(this.props.data);
-  // },
 
   render: function() {
     return (
-      <div data="dataaaa">
+      <div>
         <form className="col s12" onSubmit={this.submit}>
             <div className="input-field col s12">
               <input id="email" type="email" className="validate" value={this.state.email} onChange={this.email}/>
@@ -58,11 +52,11 @@ module.exports = React.createClass({
               <label htmlFor="password">*Password</label>
             </div>
             <button className="btn waves-effect waves-light" type="submit">
-              Submit
+              Log In
             </button>
-            <button className="btn waves-effect waves-light" type="button" onClick={this.boomerang}>
-              Test
-            </button>
+            <Link className="btn waves-effect waves-light" to="/signup">
+              Sign Up
+            </Link>
         </form>
       </div>
     )

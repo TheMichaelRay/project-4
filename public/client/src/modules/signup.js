@@ -1,5 +1,5 @@
 var React = require('react')
-var { browserHistory } = require('react-router')
+var {Link} = require('react-router')
 
 module.exports = React.createClass({
   getInitialState: function() {
@@ -64,26 +64,6 @@ module.exports = React.createClass({
     })
     this.setState({firstName: '', lastName: '', email: '', age: '', password: '', avatar: '', bio: ''})
   },
-  test: function() {
-    console.log(this.props)
-    // var testUser = {
-    //   "local.email": "testing@ga.co",
-    //   "local.password": "password",
-    //   "age": 9999,
-    //   "firstName": "Jimmy",
-    //   "lastName": "Jamz"
-    // }
-    // $.post({
-    //   url: '/users/signup',
-    //   data: testUser,
-    //   success: function(data) {
-    //     console.log(data)
-    //   },
-    //   error: function(xhr, status, err) {
-    //     console.error(this.props.url, status, err.toString())
-    //   }.bind(this)
-    // })
-  },
   render: function() {
     return (
       <div>
@@ -117,11 +97,11 @@ module.exports = React.createClass({
               <label htmlFor="age">*Age</label>
             </div>
             <button className="btn waves-effect waves-light" type="submit">
-              Submit
+              Sign Up
             </button>
-            <button className="btn waves-effect waves-light" type="button" onClick={this.test}>
-              Testing
-            </button>
+            <Link className="btn waves-effect waves-light" to="/login">
+              Log In
+            </Link>
         </form>
       </div>
     )

@@ -25968,6 +25968,7 @@ module.exports = React.createClass({
 
 },{"react":232}],239:[function(require,module,exports){
 var React = require('react');
+var { Link } = require('react-router');
 
 module.exports = React.createClass({
   displayName: 'exports',
@@ -25988,7 +25989,6 @@ module.exports = React.createClass({
   submit: function (e) {
     e.preventDefault();
     var user = {};
-    // user.local = {}
     user["local.email"] = this.state.email.trim();
     user["local.password"] = this.state.password;
     if (!user["local.email"] || !user["local.password"]) {
@@ -26000,26 +26000,19 @@ module.exports = React.createClass({
       type: 'POST',
       data: user,
       success: function (data) {
-        console.log('logging in user', data);
-        this.setState({ currentUser: data, email: '', password: '' });
-        console.log(this.state);
+        this.props.history.push('/');
       }.bind(this),
       error: function () {
         this.setState({ message: "Incorrect username or password" });
         console.log(this.state.message);
       }.bind(this)
     });
-    // this.setState({})
   },
-
-  // boomerang: function() {
-  //   console.log(this.props.data);
-  // },
 
   render: function () {
     return React.createElement(
       'div',
-      { data: 'dataaaa' },
+      null,
       React.createElement(
         'form',
         { className: 'col s12', onSubmit: this.submit },
@@ -26046,19 +26039,19 @@ module.exports = React.createClass({
         React.createElement(
           'button',
           { className: 'btn waves-effect waves-light', type: 'submit' },
-          'Submit'
+          'Log In'
         ),
         React.createElement(
-          'button',
-          { className: 'btn waves-effect waves-light', type: 'button', onClick: this.boomerang },
-          'Test'
+          Link,
+          { className: 'btn waves-effect waves-light', to: '/signup' },
+          'Sign Up'
         )
       )
     );
   }
 });
 
-},{"react":232}],240:[function(require,module,exports){
+},{"react":232,"react-router":82}],240:[function(require,module,exports){
 var React = require('react');
 
 module.exports = React.createClass({
@@ -26130,15 +26123,6 @@ module.exports = React.createClass({
             null,
             React.createElement(
               Link,
-              { to: '/login' },
-              'Log In!'
-            )
-          ),
-          React.createElement(
-            'li',
-            null,
-            React.createElement(
-              Link,
               { to: '/search' },
               'Search'
             )
@@ -26149,7 +26133,16 @@ module.exports = React.createClass({
             React.createElement(
               Link,
               { to: '/review' },
-              'Review!'
+              'Review'
+            )
+          ),
+          React.createElement(
+            'li',
+            null,
+            React.createElement(
+              Link,
+              { to: '/login' },
+              'Log In'
             )
           ),
           React.createElement(
@@ -26228,7 +26221,7 @@ module.exports = React.createClass({
         } else {
           console.log('redirecting....');
           // deprecated method
-          this.props.history.push('/');
+          this.props.history.push('/login');
         }
       }.bind(this)
     });
@@ -26365,7 +26358,7 @@ module.exports = React.createClass({
 
 },{"react":232}],245:[function(require,module,exports){
 var React = require('react');
-var { browserHistory } = require('react-router');
+var { Link } = require('react-router');
 
 module.exports = React.createClass({
   displayName: 'exports',
@@ -26431,26 +26424,6 @@ module.exports = React.createClass({
       }.bind(this)
     });
     this.setState({ firstName: '', lastName: '', email: '', age: '', password: '', avatar: '', bio: '' });
-  },
-  test: function () {
-    console.log(this.props);
-    // var testUser = {
-    //   "local.email": "testing@ga.co",
-    //   "local.password": "password",
-    //   "age": 9999,
-    //   "firstName": "Jimmy",
-    //   "lastName": "Jamz"
-    // }
-    // $.post({
-    //   url: '/users/signup',
-    //   data: testUser,
-    //   success: function(data) {
-    //     console.log(data)
-    //   },
-    //   error: function(xhr, status, err) {
-    //     console.error(this.props.url, status, err.toString())
-    //   }.bind(this)
-    // })
   },
   render: function () {
     return React.createElement(
@@ -26532,12 +26505,12 @@ module.exports = React.createClass({
         React.createElement(
           'button',
           { className: 'btn waves-effect waves-light', type: 'submit' },
-          'Submit'
+          'Sign Up'
         ),
         React.createElement(
-          'button',
-          { className: 'btn waves-effect waves-light', type: 'button', onClick: this.test },
-          'Testing'
+          Link,
+          { className: 'btn waves-effect waves-light', to: '/login' },
+          'Log In'
         )
       )
     );

@@ -50,6 +50,7 @@ module.exports = React.createClass({
     newReview["author"]= this.state.currentUser._id
     newReview["body"] = this.state.body;
     newReview["title"] = this.state.series.Title;
+    newReview["spoilers"] = this.state.spoilers;
     $.post({
       url: '/reviews',
       type: 'POST',
@@ -94,8 +95,9 @@ module.exports = React.createClass({
     newReview["author"]= this.state.currentUser
     newReview["body"] = this.state.body;
     newReview["title"] = this.state.series.Title;
-    console.log('heres the review->', newReview)
-    console.log('this is the state->', this.state)
+    newReview["spoiler"] = this.state.spoilers
+    // console.log('heres the review->', newReview)
+    // console.log('this is the state->', this.state)
   },
   render: function() {
     return (
@@ -111,10 +113,10 @@ module.exports = React.createClass({
               </div>
               <div className="switch">
                 <label>
-                  Off
+                  No Spoilers
                   <input type="checkbox" onChange={this.spoiler} />
                   <span className="lever"></span>
-                  On
+                  Spoilers
                 </label>
               </div>
               <button className="btn waves-effect waves-light" type="submit">

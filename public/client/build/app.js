@@ -26197,6 +26197,7 @@ module.exports = React.createClass({
     newReview["author"] = this.state.currentUser._id;
     newReview["body"] = this.state.body;
     newReview["title"] = this.state.series.Title;
+    newReview["spoilers"] = this.state.spoilers;
     $.post({
       url: '/reviews',
       type: 'POST',
@@ -26241,8 +26242,9 @@ module.exports = React.createClass({
     newReview["author"] = this.state.currentUser;
     newReview["body"] = this.state.body;
     newReview["title"] = this.state.series.Title;
-    console.log('heres the review->', newReview);
-    console.log('this is the state->', this.state);
+    newReview["spoiler"] = this.state.spoilers;
+    // console.log('heres the review->', newReview)
+    // console.log('this is the state->', this.state)
   },
   render: function () {
     return React.createElement(
@@ -26280,10 +26282,10 @@ module.exports = React.createClass({
             React.createElement(
               'label',
               null,
-              'Off',
+              'No Spoilers',
               React.createElement('input', { type: 'checkbox', onChange: this.spoiler }),
               React.createElement('span', { className: 'lever' }),
-              'On'
+              'Spoilers'
             )
           ),
           React.createElement(

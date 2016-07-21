@@ -1,16 +1,23 @@
 var React = require('react')
+var {Link} = require('react-router')
 
 var SeriesList = React.createClass({
   render: function() {
     var seriesNodes = this.props.data.map(function(series) {
       return (
-        <h1 key={series.imdbID}>
-          {series.Title}
-        </h1>
+        <div className="card col m4" key={series.imdbID}>
+          <div className="card-image waves-effect waves-block waves-light">
+            <img className="activator responsive-img" src={series.Poster} />
+          </div>
+          <div className="card-content">
+            <div className="card-title grey-text text-darken-4">{series.Title}</div>
+            <Link className="btn waves-effect waves-light" to={"/review/" + series.imdbID + ""}>Review</Link>
+          </div>
+        </div>
       )
     })
     return (
-      <div className="seriesList">
+      <div className="seriesList row">
         {seriesNodes}
       </div>
     )
@@ -40,15 +47,14 @@ module.exports = React.createClass({
   render: function() {
     return (
       <div>
-        <div className="row">
-          <div className="input-field col s8">
-            <input id="search" type="text" value={this.state.search} onChange={this.searchFill} className="validate" />
-            <label htmlFor="search">Search for Series</label>
+        <form className="col s12" onSubmit={this.search}>
+          <div className="row">
+            <div className="input-field col s12">
+              <input id="search" type="text" value={this.state.search} onChange={this.searchFill} className="validate" />
+              <label htmlFor="search">Search for Series</label>
+            </div>
           </div>
-          <div className="col s4">
-            <button className="btn waves-effect waves-light" onClick={this.search}>Search</button>
-          </div>
-        </div>
+        </form>
         < SeriesList data={this.state.seriesData} />
       </div>
     )

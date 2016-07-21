@@ -25786,10 +25786,9 @@ ReactDOM.render(React.createElement(
     { path: '/', component: Title },
     React.createElement(IndexRoute, { component: Home }),
     React.createElement(Route, { path: '/signup', component: Signup }),
-    React.createElement(Route, { path: '/fire', component: Fire }),
     React.createElement(Route, { path: '/search', component: Search }),
     React.createElement(Route, { path: '/login', component: Login }),
-    React.createElement(Route, { path: '/review', component: Review }),
+    React.createElement(Route, { path: '/review/:id', component: Review }),
     React.createElement(Route, { path: '/logout', component: Logout })
   )
 ), document.getElementById('app'));
@@ -26282,6 +26281,7 @@ module.exports = React.createClass({
 
 },{}],244:[function(require,module,exports){
 var React = require('react');
+var { Link } = require('react-router');
 
 var SeriesList = React.createClass({
   displayName: 'SeriesList',
@@ -26289,14 +26289,32 @@ var SeriesList = React.createClass({
   render: function () {
     var seriesNodes = this.props.data.map(function (series) {
       return React.createElement(
-        'h1',
-        { key: series.imdbID },
-        series.Title
+        'div',
+        { className: 'card col m4', key: series.imdbID },
+        React.createElement(
+          'div',
+          { className: 'card-image waves-effect waves-block waves-light' },
+          React.createElement('img', { className: 'activator responsive-img', src: series.Poster })
+        ),
+        React.createElement(
+          'div',
+          { className: 'card-content' },
+          React.createElement(
+            'div',
+            { className: 'card-title grey-text text-darken-4' },
+            series.Title
+          ),
+          React.createElement(
+            Link,
+            { className: 'btn waves-effect waves-light', to: "/review/" + series.imdbID + "" },
+            'Review'
+          )
+        )
       );
     });
     return React.createElement(
       'div',
-      { className: 'seriesList' },
+      { className: 'seriesList row' },
       seriesNodes
     );
   }
@@ -26329,25 +26347,20 @@ module.exports = React.createClass({
       'div',
       null,
       React.createElement(
-        'div',
-        { className: 'row' },
+        'form',
+        { className: 'col s12', onSubmit: this.search },
         React.createElement(
           'div',
-          { className: 'input-field col s8' },
-          React.createElement('input', { id: 'search', type: 'text', value: this.state.search, onChange: this.searchFill, className: 'validate' }),
+          { className: 'row' },
           React.createElement(
-            'label',
-            { htmlFor: 'search' },
-            'Search for Series'
-          )
-        ),
-        React.createElement(
-          'div',
-          { className: 'col s4' },
-          React.createElement(
-            'button',
-            { className: 'btn waves-effect waves-light', onClick: this.search },
-            'Search'
+            'div',
+            { className: 'input-field col s12' },
+            React.createElement('input', { id: 'search', type: 'text', value: this.state.search, onChange: this.searchFill, className: 'validate' }),
+            React.createElement(
+              'label',
+              { htmlFor: 'search' },
+              'Search for Series'
+            )
           )
         )
       ),
@@ -26356,7 +26369,7 @@ module.exports = React.createClass({
   }
 });
 
-},{"react":232}],245:[function(require,module,exports){
+},{"react":232,"react-router":82}],245:[function(require,module,exports){
 var React = require('react');
 var { Link } = require('react-router');
 

@@ -17,15 +17,14 @@ module.exports = React.createClass({
     e.preventDefault()
     var body = this.state.body;
     var title = this.state.title;
-    var newTweet = {
+    var newReview = {
       body: body,
       title: title
     }
-    // console.log(newTweet);
     $.post({
-      url: '/tweets',
+      url: '/reviews',
       type: 'POST',
-      data: newTweet,
+      data: newReview,
       success: function(data) {
         console.log(data)
       }
@@ -35,7 +34,7 @@ module.exports = React.createClass({
   render: function() {
     return (
       <div>
-        <h1>Make a Tweet!</h1>
+        <h1>Make a Review!</h1>
         <form className="col s12" onSubmit={this.submit}>
             <div className="input-field col s12">
               <textarea id="title" className="materialize-textarea" value={this.state.title} onChange={this.title}/>

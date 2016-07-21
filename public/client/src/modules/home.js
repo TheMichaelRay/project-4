@@ -43,7 +43,7 @@ module.exports = React.createClass({
 
   componentWillMount: function() {
     $.ajax({
-      url: '/tweets',
+      url: '/reviews',
       type: 'get',
       success: function(data) {
         this.setState({

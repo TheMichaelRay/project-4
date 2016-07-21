@@ -27,7 +27,7 @@ module.exports = React.createClass({
           <ul className="right hide-on-med-and-down">
             <li><Link to="/fire">Fire!</Link></li>
             <li><Link to="/search">Search</Link></li>
-            <li><Link to="/tweet">Tweet!</Link></li>
+            <li><Link to="/review">Review!</Link></li>
           </ul>
           <ul className="side-nav" id="mobile-demo">
             <li><Link to="/fire">Fire!</Link></li>

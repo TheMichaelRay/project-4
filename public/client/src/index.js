@@ -8,7 +8,7 @@ var ReactDOM = require('react-dom')
 var Title = require('./modules/app')
 var Fire = require('./modules/fire')
 var Login = require('./modules/login')
-var Tweet = require('./modules/tweet')
+var Review = require('./modules/review')
 var routes = require('./modules/routes')
 var Signup = require('./modules/signup')
 var Search = require('./modules/search')
@@ -25,7 +25,7 @@ ReactDOM.render(
         < Route path='/fire' component={Fire} />
         < Route path='/search' component={Search} />
         < Route path='/login' component={Login} />
-        < Route path='/tweet' component={Tweet} />
+        < Route path='/review' component={Review} />
       </Route>
     </Router>,
   document.getElementById('app')

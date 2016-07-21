@@ -8,6 +8,6 @@ var reviewSchema = new Schema ({
   timestamps: true
 })
 
-var Review = mongoose.model('Review', tweetSchema)
+var Review = mongoose.model('Review', reviewSchema)
 
 module.exports = Review

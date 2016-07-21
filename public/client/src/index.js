@@ -6,13 +6,13 @@ var React = require('react')
 var Router = require('react-router')
 var ReactDOM = require('react-dom')
 var Title = require('./modules/app')
-var Fire = require('./modules/fire')
 var Login = require('./modules/login')
 var Review = require('./modules/review')
 var routes = require('./modules/routes')
 var Signup = require('./modules/signup')
 var Search = require('./modules/search')
 var Home = require('./modules/home')
+var Series = require('./modules/series')
 var Logout = require('./modules/logout')
 var { DefaultRoute, NotFoundRoute, Router, hashHistory, browserHistory, Route, IndexRoute } = require('react-router')
 
@@ -25,6 +25,7 @@ ReactDOM.render(
         < Route path='/signup' component={Signup} />
         < Route path='/search' component={Search} />
         < Route path='/review/:id' component={Review} />
+        < Route path='/series/:id' component={Series} />
         < Route path='/login' component={Login} />
         < Route path='/logout' component={Logout} />
       </Route>

@@ -25768,13 +25768,13 @@ var React = require('react');
 var Router = require('react-router');
 var ReactDOM = require('react-dom');
 var Title = require('./modules/app');
-var Fire = require('./modules/fire');
 var Login = require('./modules/login');
 var Review = require('./modules/review');
 var routes = require('./modules/routes');
 var Signup = require('./modules/signup');
 var Search = require('./modules/search');
 var Home = require('./modules/home');
+var Series = require('./modules/series');
 var Logout = require('./modules/logout');
 var { DefaultRoute, NotFoundRoute, Router, hashHistory, browserHistory, Route, IndexRoute } = require('react-router');
 
@@ -25788,12 +25788,13 @@ ReactDOM.render(React.createElement(
     React.createElement(Route, { path: '/signup', component: Signup }),
     React.createElement(Route, { path: '/search', component: Search }),
     React.createElement(Route, { path: '/review/:id', component: Review }),
+    React.createElement(Route, { path: '/series/:id', component: Series }),
     React.createElement(Route, { path: '/login', component: Login }),
     React.createElement(Route, { path: '/logout', component: Logout })
   )
 ), document.getElementById('app'));
 
-},{"./modules/app":236,"./modules/fire":237,"./modules/home":238,"./modules/login":239,"./modules/logout":240,"./modules/review":242,"./modules/routes":243,"./modules/search":244,"./modules/signup":245,"react":232,"react-dom":52,"react-router":82}],236:[function(require,module,exports){
+},{"./modules/app":236,"./modules/home":237,"./modules/login":238,"./modules/logout":239,"./modules/review":241,"./modules/routes":242,"./modules/search":243,"./modules/series":244,"./modules/signup":245,"react":232,"react-dom":52,"react-router":82}],236:[function(require,module,exports){
 var React = require('react');
 var Nav = require('./nav');
 var Signup = require('./signup');
@@ -25836,41 +25837,7 @@ module.exports = React.createClass({
   }
 });
 
-},{"./nav":241,"./signup":245,"react":232}],237:[function(require,module,exports){
-var React = require('react');
-
-module.exports = React.createClass({
-  displayName: 'exports',
-
-  test: function () {
-    console.log("Testing");
-    $.ajax({
-      url: '/users',
-      type: 'GET',
-      success: function (data) {
-        console.log(data);
-      }
-    });
-  },
-  render: function () {
-    return React.createElement(
-      'div',
-      null,
-      React.createElement(
-        'h1',
-        null,
-        'Welcome to the Jungle!'
-      ),
-      React.createElement(
-        'button',
-        { className: 'waves-effect waves-light btn', onClick: this.test },
-        'Click!'
-      )
-    );
-  }
-});
-
-},{"react":232}],238:[function(require,module,exports){
+},{"./nav":240,"./signup":245,"react":232}],237:[function(require,module,exports){
 var React = require('react');
 
 var SeriesReviews = React.createClass({
@@ -25977,7 +25944,7 @@ module.exports = React.createClass({
   }
 });
 
-},{"react":232}],239:[function(require,module,exports){
+},{"react":232}],238:[function(require,module,exports){
 var React = require('react');
 var { Link } = require('react-router');
 
@@ -26062,7 +26029,7 @@ module.exports = React.createClass({
   }
 });
 
-},{"react":232,"react-router":82}],240:[function(require,module,exports){
+},{"react":232,"react-router":82}],239:[function(require,module,exports){
 var React = require('react');
 
 module.exports = React.createClass({
@@ -26082,7 +26049,7 @@ module.exports = React.createClass({
   }
 });
 
-},{"react":232}],241:[function(require,module,exports){
+},{"react":232}],240:[function(require,module,exports){
 var { Link } = require('react-router');
 var React = require('react');
 
@@ -26175,7 +26142,7 @@ module.exports = React.createClass({
   }
 });
 
-},{"react":232,"react-router":82}],242:[function(require,module,exports){
+},{"react":232,"react-router":82}],241:[function(require,module,exports){
 var React = require('react');
 
 module.exports = React.createClass({
@@ -26279,7 +26246,7 @@ module.exports = React.createClass({
   }
 });
 
-},{"react":232}],243:[function(require,module,exports){
+},{"react":232}],242:[function(require,module,exports){
 // var React = require('react')
 // var {DefaultRoute, NotFoundRoute, Route} = require('react-router')
 // var Test = require('./app')
@@ -26291,7 +26258,7 @@ module.exports = React.createClass({
 //   </Route>
 // )
 
-},{}],244:[function(require,module,exports){
+},{}],243:[function(require,module,exports){
 var React = require('react');
 var { Link } = require('react-router');
 
@@ -26312,17 +26279,22 @@ var SeriesList = React.createClass({
       );
     } else {
       seriesNodes = this.props.data.map(function (series) {
+        // remove node if they dont have poster
         return React.createElement(
           'div',
           { className: 'card hoverable col m4', key: series.imdbID },
           React.createElement(
             'div',
             { className: 'card-image waves-effect waves-block waves-light' },
-            React.createElement('img', { className: 'activator responsive-img', src: series.Poster })
+            React.createElement(
+              Link,
+              { to: "/series/" + series.imdbID },
+              React.createElement('img', { className: 'activator responsive-img', src: series.Poster })
+            )
           ),
           React.createElement(
             'div',
-            { className: 'card-content' },
+            { className: 'card-content center-align' },
             React.createElement(
               'div',
               { className: 'card-title grey-text text-darken-4' },
@@ -26409,6 +26381,144 @@ module.exports = React.createClass({
       React.createElement(SeriesList, { data: this.state.seriesData })
     );
   }
+});
+
+},{"react":232,"react-router":82}],244:[function(require,module,exports){
+var React = require('react');
+var { Link } = require('react-router');
+
+module.exports = React.createClass({
+  displayName: 'exports',
+
+  getInitialState: function () {
+    return {
+      series: {}
+    };
+  },
+  componentWillMount: function () {
+    var url = 'http://www.omdbapi.com/?i=' + this.props.params.id + '&&plot=full';
+    $.ajax({
+      url: '/users/profile',
+      type: 'get',
+      success: function (data) {
+        if (data.success) {
+          this.setState({ currentUser: data.user });
+          console.log(this.state);
+          $.ajax({
+            url: url,
+            type: 'get',
+            success: function (data) {
+              this.setState({ series: data });
+            }.bind(this)
+          });
+        } else {
+          console.log('redirecting....');
+          // deprecated method
+          this.props.history.push('/login');
+        }
+      }.bind(this)
+    });
+  },
+
+  render: function () {
+    return React.createElement(
+      'div',
+      null,
+      React.createElement('hr', null),
+      React.createElement(
+        'div',
+        { className: 'row' },
+        React.createElement(
+          'div',
+          { className: 'col m4' },
+          React.createElement('img', { className: 'activator responsive-img', src: this.state.series.Poster })
+        ),
+        React.createElement(
+          'div',
+          { className: 'col m8' },
+          React.createElement(
+            'h5',
+            null,
+            React.createElement(
+              'small',
+              null,
+              'Title:'
+            ),
+            ' ',
+            this.state.series.Title,
+            ' '
+          ),
+          React.createElement(
+            'h5',
+            null,
+            React.createElement(
+              'small',
+              null,
+              'Genre:'
+            ),
+            ' ',
+            this.state.series.Genre,
+            ' '
+          ),
+          React.createElement(
+            'h5',
+            null,
+            React.createElement(
+              'small',
+              null,
+              'Year:'
+            ),
+            ' ',
+            this.state.series.Year,
+            ' '
+          ),
+          React.createElement(
+            'h5',
+            null,
+            React.createElement(
+              'small',
+              null,
+              'Seasons:'
+            ),
+            ' ',
+            this.state.series.totalSeasons,
+            ' '
+          ),
+          React.createElement(
+            'h5',
+            null,
+            React.createElement(
+              'small',
+              null,
+              'Plot:'
+            )
+          ),
+          React.createElement('hr', null),
+          React.createElement(
+            'p',
+            { className: 'flow-text' },
+            this.state.series.Plot
+          )
+        )
+      ),
+      React.createElement('hr', null),
+      React.createElement(
+        'div',
+        { className: 'row' },
+        React.createElement(
+          Link,
+          { className: 'col m6 btn waves-effect waves-light', to: '/search' },
+          '  ⬅️ Back to Search '
+        ),
+        React.createElement(
+          Link,
+          { className: 'col m6 btn waves-effect waves-light', to: "/review/" + this.state.series.imdbID },
+          'Review ➡️ '
+        )
+      )
+    );
+  }
+
 });
 
 },{"react":232,"react-router":82}],245:[function(require,module,exports){

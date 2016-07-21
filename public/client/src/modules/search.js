@@ -2,6 +2,22 @@ var React = require('react')
 var {Link} = require('react-router')
 
 var SeriesList = React.createClass({
+  componentWillMount: function() {
+    $.ajax({
+      url: '/users/profile',
+      type: 'get',
+      success: function(data) {
+        if (data.success) {
+          this.setState({currentUser: data.user})
+          console.log(this.state)
+        } else {
+          console.log('redirecting....')
+          // deprecated method
+          this.props.history.push('/login')
+        }
+      }.bind(this)
+    })
+  },
   render: function() {
     var seriesNodes = this.props.data.map(function(series) {
       return (

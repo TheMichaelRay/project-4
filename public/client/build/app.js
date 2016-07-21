@@ -25775,6 +25775,7 @@ var routes = require('./modules/routes');
 var Signup = require('./modules/signup');
 var Search = require('./modules/search');
 var Home = require('./modules/home');
+var Logout = require('./modules/logout');
 var { DefaultRoute, NotFoundRoute, Router, hashHistory, browserHistory, Route, IndexRoute } = require('react-router');
 
 ReactDOM.render(React.createElement(
@@ -25788,11 +25789,12 @@ ReactDOM.render(React.createElement(
     React.createElement(Route, { path: '/fire', component: Fire }),
     React.createElement(Route, { path: '/search', component: Search }),
     React.createElement(Route, { path: '/login', component: Login }),
-    React.createElement(Route, { path: '/review', component: Review })
+    React.createElement(Route, { path: '/review', component: Review }),
+    React.createElement(Route, { path: '/logout', component: Logout })
   )
 ), document.getElementById('app'));
 
-},{"./modules/app":236,"./modules/fire":237,"./modules/home":238,"./modules/login":239,"./modules/review":241,"./modules/routes":242,"./modules/search":243,"./modules/signup":244,"react":232,"react-dom":52,"react-router":82}],236:[function(require,module,exports){
+},{"./modules/app":236,"./modules/fire":237,"./modules/home":238,"./modules/login":239,"./modules/logout":240,"./modules/review":242,"./modules/routes":243,"./modules/search":244,"./modules/signup":245,"react":232,"react-dom":52,"react-router":82}],236:[function(require,module,exports){
 var React = require('react');
 var Nav = require('./nav');
 var Signup = require('./signup');
@@ -25837,7 +25839,7 @@ module.exports = React.createClass({
   }
 });
 
-},{"./nav":240,"./signup":244,"react":232}],237:[function(require,module,exports){
+},{"./nav":241,"./signup":245,"react":232}],237:[function(require,module,exports){
 var React = require('react');
 
 module.exports = React.createClass({
@@ -26066,6 +26068,26 @@ module.exports = React.createClass({
 });
 
 },{"react":232}],240:[function(require,module,exports){
+var React = require('react');
+
+module.exports = React.createClass({
+  displayName: 'exports',
+
+  componentWillMount: function () {
+    $.ajax({
+      url: '/users/logout',
+      type: 'get',
+      success: function (data) {
+        this.props.history.push('/');
+      }.bind(this)
+    });
+  },
+  render: function () {
+    return React.createElement('div', null);
+  }
+});
+
+},{"react":232}],241:[function(require,module,exports){
 var { Link } = require('react-router');
 var React = require('react');
 
@@ -26126,15 +26148,6 @@ module.exports = React.createClass({
             null,
             React.createElement(
               Link,
-              { to: '/fire' },
-              'Fire!'
-            )
-          ),
-          React.createElement(
-            'li',
-            null,
-            React.createElement(
-              Link,
               { to: '/search' },
               'Search'
             )
@@ -26146,6 +26159,15 @@ module.exports = React.createClass({
               Link,
               { to: '/review' },
               'Review!'
+            )
+          ),
+          React.createElement(
+            'li',
+            null,
+            React.createElement(
+              Link,
+              { to: '/logout' },
+              'Logout'
             )
           )
         ),
@@ -26167,7 +26189,7 @@ module.exports = React.createClass({
   }
 });
 
-},{"react":232,"react-router":82}],241:[function(require,module,exports){
+},{"react":232,"react-router":82}],242:[function(require,module,exports){
 var React = require('react');
 
 module.exports = React.createClass({
@@ -26254,7 +26276,7 @@ module.exports = React.createClass({
   }
 });
 
-},{"react":232}],242:[function(require,module,exports){
+},{"react":232}],243:[function(require,module,exports){
 // var React = require('react')
 // var {DefaultRoute, NotFoundRoute, Route} = require('react-router')
 // var Test = require('./app')
@@ -26266,7 +26288,7 @@ module.exports = React.createClass({
 //   </Route>
 // )
 
-},{}],243:[function(require,module,exports){
+},{}],244:[function(require,module,exports){
 var React = require('react');
 
 var SeriesList = React.createClass({
@@ -26342,7 +26364,7 @@ module.exports = React.createClass({
   }
 });
 
-},{"react":232}],244:[function(require,module,exports){
+},{"react":232}],245:[function(require,module,exports){
 var React = require('react');
 var { browserHistory } = require('react-router');
 

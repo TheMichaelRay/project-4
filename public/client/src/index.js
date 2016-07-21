@@ -13,6 +13,7 @@ var routes = require('./modules/routes')
 var Signup = require('./modules/signup')
 var Search = require('./modules/search')
 var Home = require('./modules/home')
+var Logout = require('./modules/logout')
 var { DefaultRoute, NotFoundRoute, Router, hashHistory, browserHistory, Route, IndexRoute } = require('react-router')
 
 
@@ -26,6 +27,7 @@ ReactDOM.render(
         < Route path='/search' component={Search} />
         < Route path='/login' component={Login} />
         < Route path='/review' component={Review} />
+        < Route path='/logout' component={Logout} />
       </Route>
     </Router>,
   document.getElementById('app')

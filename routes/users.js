@@ -38,6 +38,12 @@ router.get('/profile', function(req, res) {
   }
 })
 
+router.get('/logout', function (req, res) {
+  req.logout()
+  res.json({success: true, message: 'user logged out'})
+})
+
+
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated()) return next()
   res.json({success: false, message: "Not logged in"})

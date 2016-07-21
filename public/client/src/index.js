@@ -12,6 +12,7 @@ var Tweet = require('./modules/tweet')
 var routes = require('./modules/routes')
 var Signup = require('./modules/signup')
 var Search = require('./modules/search')
+var Home = require('./modules/home')
 var { DefaultRoute, NotFoundRoute, Router, hashHistory, browserHistory, Route, IndexRoute } = require('react-router')
 
 
@@ -19,7 +20,8 @@ var { DefaultRoute, NotFoundRoute, Router, hashHistory, browserHistory, Route, I
 ReactDOM.render(
     <Router history={hashHistory}>
       < Route path='/' component={Title} >
-        < IndexRoute component={Signup} data='iiiiiii' />
+        < IndexRoute component={Home} />
+        < Route path='/signup' component={Signup} />
         < Route path='/fire' component={Fire} />
         < Route path='/search' component={Search} />
         < Route path='/login' component={Login} />

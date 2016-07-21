@@ -11,7 +11,8 @@ var
     lastName: {type: String, required: true},
     avatar: String,
     bio: String,
-    age: {type: String, required: true, min: 18}
+    age: {type: String, required: true, min: 18},
+    reviews: [{type: Schema.Types.ObjectId, ref: 'Review'}]
   },
   {
     timestamps: true

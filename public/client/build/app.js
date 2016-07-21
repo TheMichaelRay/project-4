@@ -25774,6 +25774,7 @@ var Tweet = require('./modules/tweet');
 var routes = require('./modules/routes');
 var Signup = require('./modules/signup');
 var Search = require('./modules/search');
+var Home = require('./modules/home');
 var { DefaultRoute, NotFoundRoute, Router, hashHistory, browserHistory, Route, IndexRoute } = require('react-router');
 
 ReactDOM.render(React.createElement(
@@ -25782,7 +25783,8 @@ ReactDOM.render(React.createElement(
   React.createElement(
     Route,
     { path: '/', component: Title },
-    React.createElement(IndexRoute, { component: Signup, data: 'iiiiiii' }),
+    React.createElement(IndexRoute, { component: Home }),
+    React.createElement(Route, { path: '/signup', component: Signup }),
     React.createElement(Route, { path: '/fire', component: Fire }),
     React.createElement(Route, { path: '/search', component: Search }),
     React.createElement(Route, { path: '/login', component: Login }),
@@ -25790,7 +25792,7 @@ ReactDOM.render(React.createElement(
   )
 ), document.getElementById('app'));
 
-},{"./modules/app":236,"./modules/fire":237,"./modules/login":238,"./modules/routes":240,"./modules/search":241,"./modules/signup":242,"./modules/tweet":243,"react":232,"react-dom":52,"react-router":82}],236:[function(require,module,exports){
+},{"./modules/app":236,"./modules/fire":237,"./modules/home":238,"./modules/login":239,"./modules/routes":241,"./modules/search":242,"./modules/signup":243,"./modules/tweet":244,"react":232,"react-dom":52,"react-router":82}],236:[function(require,module,exports){
 var React = require('react');
 var Nav = require('./nav');
 var Signup = require('./signup');
@@ -25835,7 +25837,7 @@ module.exports = React.createClass({
   }
 });
 
-},{"./nav":239,"./signup":242,"react":232}],237:[function(require,module,exports){
+},{"./nav":240,"./signup":243,"react":232}],237:[function(require,module,exports){
 var React = require('react');
 
 module.exports = React.createClass({
@@ -25870,6 +25872,108 @@ module.exports = React.createClass({
 });
 
 },{"react":232}],238:[function(require,module,exports){
+var React = require('react');
+
+var SeriesReviews = React.createClass({
+  displayName: "SeriesReviews",
+
+  render: function () {
+    var reviewNodes = this.props.data.map(function (review) {
+      return React.createElement(
+        "li",
+        null,
+        React.createElement(
+          "div",
+          { className: "collapsible-header" },
+          review.title
+        ),
+        React.createElement(
+          "div",
+          { className: "collapsible-body" },
+          React.createElement(
+            "p",
+            null,
+            review.body
+          )
+        )
+      );
+    });
+
+    return React.createElement(
+      "ul",
+      { className: "collapsible", "data-collapsible": "accordion" },
+      reviewNodes
+    );
+  }
+});
+// <ul className="collapsible" data-collapsible="accordion">
+//   <li>
+//     <div className="collapsible-header">First</div>
+//     <div className="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+//   </li>
+//   <li>
+//     <div className="collapsible-header">Second</div>
+//     <div className="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+//   </li>
+//   <li>
+//     <div className="collapsible-header">Third</div>
+//     <div className="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+//   </li>
+// </ul>
+
+
+module.exports = React.createClass({
+  displayName: "exports",
+
+  getInitialState: function () {
+    return {
+      reviewData: []
+    };
+  },
+
+  componentWillMount: function () {
+    $.ajax({
+      url: '/tweets',
+      type: 'get',
+      success: function (data) {
+        this.setState({
+          reviewData: data
+        });
+        console.log(data);
+      }.bind(this)
+    });
+  },
+
+  render: function () {
+    $('.collapsible').collapsible({
+      accordion: false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
+    });
+    return React.createElement(
+      "div",
+      null,
+      React.createElement(
+        "div",
+        { className: "row" },
+        React.createElement(
+          "div",
+          { className: "col s12 center" },
+          React.createElement(
+            "h1",
+            null,
+            "New TV Reviews"
+          )
+        )
+      ),
+      React.createElement(
+        "div",
+        { className: "row" },
+        React.createElement(SeriesReviews, { data: this.state.reviewData })
+      )
+    );
+  }
+});
+
+},{"react":232}],239:[function(require,module,exports){
 var React = require('react');
 
 module.exports = React.createClass({
@@ -25961,7 +26065,7 @@ module.exports = React.createClass({
   }
 });
 
-},{"react":232}],239:[function(require,module,exports){
+},{"react":232}],240:[function(require,module,exports){
 var { Link } = require('react-router');
 var React = require('react');
 
@@ -26054,7 +26158,7 @@ module.exports = React.createClass({
   }
 });
 
-},{"react":232,"react-router":82}],240:[function(require,module,exports){
+},{"react":232,"react-router":82}],241:[function(require,module,exports){
 // var React = require('react')
 // var {DefaultRoute, NotFoundRoute, Route} = require('react-router')
 // var Test = require('./app')
@@ -26066,7 +26170,7 @@ module.exports = React.createClass({
 //   </Route>
 // )
 
-},{}],241:[function(require,module,exports){
+},{}],242:[function(require,module,exports){
 var React = require('react');
 
 var SeriesList = React.createClass({
@@ -26142,7 +26246,7 @@ module.exports = React.createClass({
   }
 });
 
-},{"react":232}],242:[function(require,module,exports){
+},{"react":232}],243:[function(require,module,exports){
 var React = require('react');
 var { browserHistory } = require('react-router');
 
@@ -26323,7 +26427,7 @@ module.exports = React.createClass({
   }
 });
 
-},{"react":232,"react-router":82}],243:[function(require,module,exports){
+},{"react":232,"react-router":82}],244:[function(require,module,exports){
 var React = require('react');
 
 module.exports = React.createClass({

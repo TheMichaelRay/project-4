@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var tweetSchema = new Schema ({
+var reviewSchema = new Schema ({
   body: String,
   title: String,
 },
@@ -8,6 +8,6 @@ var tweetSchema = new Schema ({
   timestamps: true
 })
 
-var Tweet = mongoose.model('Tweet', tweetSchema)
+var Review = mongoose.model('Review', tweetSchema)
 
-module.exports = Tweet
+module.exports = Review

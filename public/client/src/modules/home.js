@@ -4,9 +4,15 @@ var SeriesReviews = React.createClass({
   render: function() {
     var reviewNodes = this.props.data.map(function(review) {
       return (
-        <li key={review._id}>
-          <div className="collapsible-header">{review.title} <small> by {review.author? review.author.firstName + ' ' + review.author.lastName : 'Unknown'}</small></div>
-          <div className="collapsible-body"><p>{review.body}</p></div>
+        <li key={review._id} id={"list-" + review._id}>
+          <div className="collapsible-header">
+            {review.title} <small> by {review.author? review.author.firstName + ' ' + review.author.lastName : 'Unknown'}</small>
+          </div>
+          <div className="collapsible-body">
+            <p>{review.body}</p>
+            <hr/>
+            <button id={review._id} className="btn waves-effect waves-light right-align delete-button collapsible">Delete</button>
+          </div>
         </li>
       )
     })
@@ -49,10 +55,22 @@ module.exports = React.createClass({
           reviewData: data
         })
         console.log(data)
+        $('.delete-button').click(this.delete)
       }.bind(this)
     })
   },
-
+  delete: function(e) {
+    var url = '/reviews/' + e.target.id
+    var $list = $('#list-' + e.target.id)
+    $list.remove()
+    $.ajax({
+      url: url,
+      type: 'delete',
+      success: function(data) {
+        console.log(data)
+      }.bind(this)
+    })
+  },
   render: function() {
     $('.collapsible').collapsible({
       accordion : false // A setting that changes the collapsible behavior to expandable instead of the default accordion style

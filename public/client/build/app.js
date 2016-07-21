@@ -25841,46 +25841,52 @@ module.exports = React.createClass({
 var React = require('react');
 
 var SeriesReviews = React.createClass({
-  displayName: 'SeriesReviews',
+  displayName: "SeriesReviews",
 
   render: function () {
     var reviewNodes = this.props.data.map(function (review) {
       return React.createElement(
-        'li',
-        { key: review._id },
+        "li",
+        { key: review._id, id: "list-" + review._id },
         React.createElement(
-          'div',
-          { className: 'collapsible-header' },
+          "div",
+          { className: "collapsible-header" },
           review.title,
-          ' ',
+          " ",
           React.createElement(
-            'small',
+            "small",
             null,
-            ' by ',
+            " by ",
             review.author ? review.author.firstName + ' ' + review.author.lastName : 'Unknown'
           )
         ),
         React.createElement(
-          'div',
-          { className: 'collapsible-body' },
+          "div",
+          { className: "collapsible-body" },
           React.createElement(
-            'p',
+            "p",
             null,
             review.body
+          ),
+          React.createElement("hr", null),
+          React.createElement(
+            "button",
+            { id: review._id, className: "btn waves-effect waves-light right-align delete-button collapsible" },
+            "Delete"
           )
         )
       );
     });
     return React.createElement(
-      'ul',
-      { className: 'collapsible', 'data-collapsible': 'accordion' },
+      "ul",
+      { className: "collapsible", "data-collapsible": "accordion" },
       reviewNodes
     );
   }
 });
 
 module.exports = React.createClass({
-  displayName: 'exports',
+  displayName: "exports",
 
   getInitialState: function () {
     return {
@@ -25911,33 +25917,45 @@ module.exports = React.createClass({
           reviewData: data
         });
         console.log(data);
+        $('.delete-button').click(this.delete);
       }.bind(this)
     });
   },
-
+  delete: function (e) {
+    var url = '/reviews/' + e.target.id;
+    var $list = $('#list-' + e.target.id);
+    $list.remove();
+    $.ajax({
+      url: url,
+      type: 'delete',
+      success: function (data) {
+        console.log(data);
+      }.bind(this)
+    });
+  },
   render: function () {
     $('.collapsible').collapsible({
       accordion: false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
     });
     return React.createElement(
-      'div',
+      "div",
       null,
       React.createElement(
-        'div',
-        { className: 'row' },
+        "div",
+        { className: "row" },
         React.createElement(
-          'div',
-          { className: 'col s12 center' },
+          "div",
+          { className: "col s12 center" },
           React.createElement(
-            'h1',
+            "h1",
             null,
-            'New TV Reviews'
+            "New TV Reviews"
           )
         )
       ),
       React.createElement(
-        'div',
-        { className: 'row' },
+        "div",
+        { className: "row" },
         React.createElement(SeriesReviews, { data: this.state.reviewData })
       )
     );

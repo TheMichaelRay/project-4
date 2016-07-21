@@ -24,8 +24,8 @@ ReactDOM.render(
         < IndexRoute component={Home} />
         < Route path='/signup' component={Signup} />
         < Route path='/search' component={Search} />
-        < Route path='/login' component={Login} />
         < Route path='/review/:id' component={Review} />
+        < Route path='/login' component={Login} />
         < Route path='/logout' component={Logout} />
       </Route>
     </Router>,

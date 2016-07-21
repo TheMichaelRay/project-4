@@ -5,24 +5,23 @@ var Signup = require('./signup')
 module.exports = React.createClass({
   getInitialState: function() {
     return {
-      user: false,
-      message: 'hello'
     }
   },
-  returnUser: function() {
+  componentWillMount: function() {
+    console.log('about to load page')
     $.ajax({
       url: '/users/profile',
       type: 'get',
       success: function(data) {
-        return data
-      },
-      error: function() {
-        console.log(false)
-      }
+        if (data.success) {
+          this.setState({currentUser: data.user})
+          console.log(this.state)
+        } else {
+          console.log('redirecting....')
+          this.props.history.push('/login')
+        }
+      }.bind(this)
     })
-  },
-  componentWillMount: function() {
-    this.setState({user: this.returnUser()})
   },
   render: function() {
     $(".button-collapse").sideNav();

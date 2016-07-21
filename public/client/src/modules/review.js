@@ -5,7 +5,6 @@ module.exports = React.createClass({
     return {
       body: '',
       title: '',
-      currentUser: {},
       series: {}
     }
   },
@@ -34,6 +33,7 @@ module.exports = React.createClass({
     // this.setState({title: '', body: ''})
   },
   componentWillMount: function() {
+    var url = 'http://www.omdbapi.com/?i=' + (this.props.params.id)
     $.ajax({
       url: '/users/profile',
       type: 'get',
@@ -41,6 +41,13 @@ module.exports = React.createClass({
         if (data.success) {
           this.setState({currentUser: data.user})
           console.log(this.state)
+          $.ajax({
+            url: url,
+            type: 'get',
+            success: function(data) {
+              this.setState({series: data})
+            }.bind(this)
+          })
         } else {
           console.log('redirecting....')
           // deprecated method
@@ -52,7 +59,7 @@ module.exports = React.createClass({
   render: function() {
     return (
       <div>
-        <h1>Review {this.state.series}</h1>
+        <h1>Review {this.state.series.Title}</h1>
         <form className="col s12" onSubmit={this.submit}>
             <div className="input-field col s12">
               <textarea id="title" className="materialize-textarea" value={this.state.title} onChange={this.title}/>

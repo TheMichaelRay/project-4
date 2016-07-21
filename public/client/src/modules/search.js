@@ -3,24 +3,33 @@ var {Link} = require('react-router')
 
 var SeriesList = React.createClass({
   render: function() {
-    var seriesNodes = this.props.data.map(function(series) {
+    var seriesNodes;
+    if (!this.props.data) {
       return (
-        <div className="card hoverable col m4" key={series.imdbID}>
-          <div className="card-image waves-effect waves-block waves-light">
-            <img className="activator responsive-img" src={series.Poster} />
-          </div>
-          <div className="card-content">
-            <div className="card-title grey-text text-darken-4">{series.Title}</div>
-            <Link className="btn waves-effect waves-light" to={"/review/" + series.imdbID + ""}>Review</Link>
-          </div>
+        <div className="card-panel hoverable center-align">
+          <h4>Series not found...</h4>
         </div>
       )
-    })
-    return (
-      <div className="seriesList row">
-        {seriesNodes}
-      </div>
-    )
+    } else {
+      seriesNodes = this.props.data.map(function(series) {
+        return (
+          <div className="card hoverable col m4" key={series.imdbID}>
+            <div className="card-image waves-effect waves-block waves-light">
+              <img className="activator responsive-img" src={series.Poster} />
+            </div>
+            <div className="card-content">
+              <div className="card-title grey-text text-darken-4">{series.Title}</div>
+              <Link className="btn waves-effect waves-light" to={"/review/" + series.imdbID}>Review</Link>
+            </div>
+          </div>
+        )
+      })
+      return (
+        <div className="seriesList row">
+          {seriesNodes}
+        </div>
+      )
+    }
   }
 })
 
@@ -34,7 +43,8 @@ module.exports = React.createClass({
   searchFill: function(e) {
     this.setState({search: e.target.value})
   },
-  search: function() {
+  search: function(e) {
+    e.preventDefault()
     var url = 'http://www.omdbapi.com/?s=' + (this.state.search) + '&&type=series'
     $.ajax({
       url: url,
@@ -45,6 +55,7 @@ module.exports = React.createClass({
     })
   },
   componentWillMount: function() {
+    console.log('about to load page')
     $.ajax({
       url: '/users/profile',
       type: 'get',
@@ -54,7 +65,6 @@ module.exports = React.createClass({
           console.log(this.state)
         } else {
           console.log('redirecting....')
-          // deprecated method
           this.props.history.push('/login')
         }
       }.bind(this)
@@ -66,7 +76,7 @@ module.exports = React.createClass({
         <form className="col s12" onSubmit={this.search}>
           <div className="row">
             <div className="input-field col s12">
-              <input id="search" type="text" value={this.state.search} onChange={this.searchFill} className="validate" />
+              <input id="search" type="text" value={this.state.search} onChange={this.searchFill} className="validate" autoComplete="off"/>
               <label htmlFor="search">Search for Series</label>
             </div>
           </div>

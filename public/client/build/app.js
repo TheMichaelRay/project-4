@@ -25787,8 +25787,8 @@ ReactDOM.render(React.createElement(
     React.createElement(IndexRoute, { component: Home }),
     React.createElement(Route, { path: '/signup', component: Signup }),
     React.createElement(Route, { path: '/search', component: Search }),
-    React.createElement(Route, { path: '/login', component: Login }),
     React.createElement(Route, { path: '/review/:id', component: Review }),
+    React.createElement(Route, { path: '/login', component: Login }),
     React.createElement(Route, { path: '/logout', component: Logout })
   )
 ), document.getElementById('app'));
@@ -25802,25 +25802,23 @@ module.exports = React.createClass({
   displayName: 'exports',
 
   getInitialState: function () {
-    return {
-      user: false,
-      message: 'hello'
-    };
+    return {};
   },
-  returnUser: function () {
+  componentWillMount: function () {
+    console.log('about to load page');
     $.ajax({
       url: '/users/profile',
       type: 'get',
       success: function (data) {
-        return data;
-      },
-      error: function () {
-        console.log(false);
-      }
+        if (data.success) {
+          this.setState({ currentUser: data.user });
+          console.log(this.state);
+        } else {
+          console.log('redirecting....');
+          this.props.history.push('/login');
+        }
+      }.bind(this)
     });
-  },
-  componentWillMount: function () {
-    this.setState({ user: this.returnUser() });
   },
   render: function () {
     $(".button-collapse").sideNav();
@@ -26187,7 +26185,6 @@ module.exports = React.createClass({
     return {
       body: '',
       title: '',
-      currentUser: {},
       series: {}
     };
   },
@@ -26216,6 +26213,7 @@ module.exports = React.createClass({
     // this.setState({title: '', body: ''})
   },
   componentWillMount: function () {
+    var url = 'http://www.omdbapi.com/?i=' + this.props.params.id;
     $.ajax({
       url: '/users/profile',
       type: 'get',
@@ -26223,6 +26221,13 @@ module.exports = React.createClass({
         if (data.success) {
           this.setState({ currentUser: data.user });
           console.log(this.state);
+          $.ajax({
+            url: url,
+            type: 'get',
+            success: function (data) {
+              this.setState({ series: data });
+            }.bind(this)
+          });
         } else {
           console.log('redirecting....');
           // deprecated method
@@ -26239,7 +26244,7 @@ module.exports = React.createClass({
         'h1',
         null,
         'Review ',
-        this.state.series
+        this.state.series.Title
       ),
       React.createElement(
         'form',
@@ -26294,36 +26299,49 @@ var SeriesList = React.createClass({
   displayName: 'SeriesList',
 
   render: function () {
-    var seriesNodes = this.props.data.map(function (series) {
+    var seriesNodes;
+    if (!this.props.data) {
       return React.createElement(
         'div',
-        { className: 'card hoverable col m4', key: series.imdbID },
+        { className: 'card-panel hoverable center-align' },
         React.createElement(
-          'div',
-          { className: 'card-image waves-effect waves-block waves-light' },
-          React.createElement('img', { className: 'activator responsive-img', src: series.Poster })
-        ),
-        React.createElement(
-          'div',
-          { className: 'card-content' },
-          React.createElement(
-            'div',
-            { className: 'card-title grey-text text-darken-4' },
-            series.Title
-          ),
-          React.createElement(
-            Link,
-            { className: 'btn waves-effect waves-light', to: "/review/" + series.imdbID + "" },
-            'Review'
-          )
+          'h4',
+          null,
+          'Series not found...'
         )
       );
-    });
-    return React.createElement(
-      'div',
-      { className: 'seriesList row' },
-      seriesNodes
-    );
+    } else {
+      seriesNodes = this.props.data.map(function (series) {
+        return React.createElement(
+          'div',
+          { className: 'card hoverable col m4', key: series.imdbID },
+          React.createElement(
+            'div',
+            { className: 'card-image waves-effect waves-block waves-light' },
+            React.createElement('img', { className: 'activator responsive-img', src: series.Poster })
+          ),
+          React.createElement(
+            'div',
+            { className: 'card-content' },
+            React.createElement(
+              'div',
+              { className: 'card-title grey-text text-darken-4' },
+              series.Title
+            ),
+            React.createElement(
+              Link,
+              { className: 'btn waves-effect waves-light', to: "/review/" + series.imdbID },
+              'Review'
+            )
+          )
+        );
+      });
+      return React.createElement(
+        'div',
+        { className: 'seriesList row' },
+        seriesNodes
+      );
+    }
   }
 });
 
@@ -26339,7 +26357,8 @@ module.exports = React.createClass({
   searchFill: function (e) {
     this.setState({ search: e.target.value });
   },
-  search: function () {
+  search: function (e) {
+    e.preventDefault();
     var url = 'http://www.omdbapi.com/?s=' + this.state.search + '&&type=series';
     $.ajax({
       url: url,
@@ -26350,6 +26369,7 @@ module.exports = React.createClass({
     });
   },
   componentWillMount: function () {
+    console.log('about to load page');
     $.ajax({
       url: '/users/profile',
       type: 'get',
@@ -26359,7 +26379,6 @@ module.exports = React.createClass({
           console.log(this.state);
         } else {
           console.log('redirecting....');
-          // deprecated method
           this.props.history.push('/login');
         }
       }.bind(this)
@@ -26378,7 +26397,7 @@ module.exports = React.createClass({
           React.createElement(
             'div',
             { className: 'input-field col s12' },
-            React.createElement('input', { id: 'search', type: 'text', value: this.state.search, onChange: this.searchFill, className: 'validate' }),
+            React.createElement('input', { id: 'search', type: 'text', value: this.state.search, onChange: this.searchFill, className: 'validate', autoComplete: 'off' }),
             React.createElement(
               'label',
               { htmlFor: 'search' },

@@ -4,7 +4,8 @@ module.exports = React.createClass({
   getInitialState: function() {
     return {
       body: '',
-      title: ''
+      title: '',
+      currentUser: {}
     }
   },
   body: function(e) {
@@ -36,8 +37,15 @@ module.exports = React.createClass({
       url: '/users/profile',
       type: 'get',
       success: function(data) {
-        console.log(data)
-      }
+        if (data.success) {
+          this.setState({currentUser: data.user})
+          console.log(this.state)
+        } else {
+          console.log('redirecting....')
+          // deprecated method
+          this.props.history.push('/')
+        }
+      }.bind(this)
     })
   },
   render: function() {

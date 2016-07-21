@@ -31,6 +31,15 @@ module.exports = React.createClass({
     })
     this.setState({title: '', body: ''})
   },
+  componentWillMount: function() {
+    $.ajax({
+      url: '/users/profile',
+      type: 'get',
+      success: function(data) {
+        console.log(data)
+      }
+    })
+  },
   render: function() {
     return (
       <div>

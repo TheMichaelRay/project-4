@@ -4,7 +4,7 @@ var reviewRouter = express.Router()
 
 reviewRouter.route('/')
   .get(function(req, res) {
-    Review.find({}, function(err, reviews) {
+    Review.find({}).populate('author').exec(function(err, reviews) {
       if (err) throw err;
       res.json(reviews)
     })

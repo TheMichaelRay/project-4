@@ -1,8 +1,35 @@
 var React = require('react')
 
+// var Seasons = React.createClass ({
+//   render: function() {
+//     var seasons = [];
+//     for (i=0; i < this.props.data ; i++) {
+//       seasons.push(i +1)
+//     }
+//     seasonsNodes = seasons.map(function(s) {
+//       return (
+//         <option key={s} value={s}>
+//           Season {s}
+//         </option>
+//       )
+//     })
+//     console.log(seasonsNodes)
+//     return (
+//       <div className="input-field col s6">
+//           <select>
+//             <option value="" disabled selected>Choose Season</option>
+//             {seasonsNodes}
+//           </select>
+//           <label>Pick a Season (optional)</label>
+//       </div>
+//     )
+//   }
+// })
+
 module.exports = React.createClass({
   getInitialState: function() {
     return {
+      spoilers: false,
       body: '',
       title: '',
       series: {}
@@ -14,23 +41,24 @@ module.exports = React.createClass({
   title: function(e) {
     this.setState({title: e.target.value})
   },
+  spoiler: function(e) {
+    this.setState({spoilers: !this.state.spoilers})
+  },
   submit: function(e) {
     e.preventDefault()
-    var body = this.state.body;
-    var title = this.state.title;
-    var newReview = {
-      body: body,
-      title: title
-    }
+    var newReview = {}
+    newReview["author"]= this.state.currentUser._id
+    newReview["body"] = this.state.body;
+    newReview["title"] = this.state.series.Title;
     $.post({
       url: '/reviews',
       type: 'POST',
       data: newReview,
       success: function(data) {
         console.log(data)
-      }
+        this.props.history.push('/')
+      }.bind(this)
     })
-    // this.setState({title: '', body: ''})
   },
   componentWillMount: function() {
     var url = 'http://www.omdbapi.com/?i=' + (this.props.params.id)
@@ -56,23 +84,47 @@ module.exports = React.createClass({
       }.bind(this)
     })
   },
+  componentDidMount: function() {
+    $(document).ready(function() {
+      $('select').material_select();
+    });
+  },
+  test: function() {
+    var newReview = {}
+    newReview["author"]= this.state.currentUser
+    newReview["body"] = this.state.body;
+    newReview["title"] = this.state.series.Title;
+    console.log('heres the review->', newReview)
+    console.log('this is the state->', this.state)
+  },
   render: function() {
     return (
       <div>
-        <h1>Review {this.state.series.Title}</h1>
-        <form className="col s12" onSubmit={this.submit}>
-            <div className="input-field col s12">
-              <textarea id="title" className="materialize-textarea" value={this.state.title} onChange={this.title}/>
-              <label htmlFor="title">*Title</label>
-            </div>
-            <div className="input-field col s12">
-              <input id="body" type="text" className="validate" value={this.state.body} onChange={this.body}/>
-              <label htmlFor="body">*Body</label>
-            </div>
-            <button className="btn waves-effect waves-light" type="submit">
-              Submit
-            </button>
-        </form>
+        <div className="col s12 center-align">
+          <h1>Review {this.state.series.Title}</h1>
+        </div>
+        <div className="row">
+          <form className="col s12" onSubmit={this.submit}>
+              <div className="input-field col s12">
+                <input id="body" type="text" className="validate" value={this.state.body} onChange={this.body}/>
+                <label htmlFor="body">*Body</label>
+              </div>
+              <div className="switch">
+                <label>
+                  Off
+                  <input type="checkbox" onChange={this.spoiler} />
+                  <span className="lever"></span>
+                  On
+                </label>
+              </div>
+              <button className="btn waves-effect waves-light" type="submit">
+                Submit
+              </button>
+          </form>
+          <button className="btn waves-effect waves-light" type="button" onClick={this.test}>
+          Test
+          </button>
+        </div>
       </div>
     )
   }

@@ -25857,7 +25857,7 @@ var SeriesReviews = React.createClass({
             'small',
             null,
             ' by ',
-            review.author || 'Unknown'
+            review.author ? review.author.firstName + ' ' + review.author.lastName : 'Unknown'
           )
         ),
         React.createElement(
@@ -26145,11 +26145,38 @@ module.exports = React.createClass({
 },{"react":232,"react-router":82}],241:[function(require,module,exports){
 var React = require('react');
 
+// var Seasons = React.createClass ({
+//   render: function() {
+//     var seasons = [];
+//     for (i=0; i < this.props.data ; i++) {
+//       seasons.push(i +1)
+//     }
+//     seasonsNodes = seasons.map(function(s) {
+//       return (
+//         <option key={s} value={s}>
+//           Season {s}
+//         </option>
+//       )
+//     })
+//     console.log(seasonsNodes)
+//     return (
+//       <div className="input-field col s6">
+//           <select>
+//             <option value="" disabled selected>Choose Season</option>
+//             {seasonsNodes}
+//           </select>
+//           <label>Pick a Season (optional)</label>
+//       </div>
+//     )
+//   }
+// })
+
 module.exports = React.createClass({
   displayName: 'exports',
 
   getInitialState: function () {
     return {
+      spoilers: false,
       body: '',
       title: '',
       series: {}
@@ -26161,23 +26188,24 @@ module.exports = React.createClass({
   title: function (e) {
     this.setState({ title: e.target.value });
   },
+  spoiler: function (e) {
+    this.setState({ spoilers: !this.state.spoilers });
+  },
   submit: function (e) {
     e.preventDefault();
-    var body = this.state.body;
-    var title = this.state.title;
-    var newReview = {
-      body: body,
-      title: title
-    };
+    var newReview = {};
+    newReview["author"] = this.state.currentUser._id;
+    newReview["body"] = this.state.body;
+    newReview["title"] = this.state.series.Title;
     $.post({
       url: '/reviews',
       type: 'POST',
       data: newReview,
       success: function (data) {
         console.log(data);
-      }
+        this.props.history.push('/');
+      }.bind(this)
     });
-    // this.setState({title: '', body: ''})
   },
   componentWillMount: function () {
     var url = 'http://www.omdbapi.com/?i=' + this.props.params.id;
@@ -26203,43 +26231,71 @@ module.exports = React.createClass({
       }.bind(this)
     });
   },
+  componentDidMount: function () {
+    $(document).ready(function () {
+      $('select').material_select();
+    });
+  },
+  test: function () {
+    var newReview = {};
+    newReview["author"] = this.state.currentUser;
+    newReview["body"] = this.state.body;
+    newReview["title"] = this.state.series.Title;
+    console.log('heres the review->', newReview);
+    console.log('this is the state->', this.state);
+  },
   render: function () {
     return React.createElement(
       'div',
       null,
       React.createElement(
-        'h1',
-        null,
-        'Review ',
-        this.state.series.Title
+        'div',
+        { className: 'col s12 center-align' },
+        React.createElement(
+          'h1',
+          null,
+          'Review ',
+          this.state.series.Title
+        )
       ),
       React.createElement(
-        'form',
-        { className: 'col s12', onSubmit: this.submit },
+        'div',
+        { className: 'row' },
         React.createElement(
-          'div',
-          { className: 'input-field col s12' },
-          React.createElement('textarea', { id: 'title', className: 'materialize-textarea', value: this.state.title, onChange: this.title }),
+          'form',
+          { className: 'col s12', onSubmit: this.submit },
           React.createElement(
-            'label',
-            { htmlFor: 'title' },
-            '*Title'
-          )
-        ),
-        React.createElement(
-          'div',
-          { className: 'input-field col s12' },
-          React.createElement('input', { id: 'body', type: 'text', className: 'validate', value: this.state.body, onChange: this.body }),
+            'div',
+            { className: 'input-field col s12' },
+            React.createElement('input', { id: 'body', type: 'text', className: 'validate', value: this.state.body, onChange: this.body }),
+            React.createElement(
+              'label',
+              { htmlFor: 'body' },
+              '*Body'
+            )
+          ),
           React.createElement(
-            'label',
-            { htmlFor: 'body' },
-            '*Body'
+            'div',
+            { className: 'switch' },
+            React.createElement(
+              'label',
+              null,
+              'Off',
+              React.createElement('input', { type: 'checkbox', onChange: this.spoiler }),
+              React.createElement('span', { className: 'lever' }),
+              'On'
+            )
+          ),
+          React.createElement(
+            'button',
+            { className: 'btn waves-effect waves-light', type: 'submit' },
+            'Submit'
           )
         ),
         React.createElement(
           'button',
-          { className: 'btn waves-effect waves-light', type: 'submit' },
-          'Submit'
+          { className: 'btn waves-effect waves-light', type: 'button', onClick: this.test },
+          'Test'
         )
       )
     );

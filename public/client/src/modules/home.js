@@ -5,7 +5,7 @@ var SeriesReviews = React.createClass({
     var reviewNodes = this.props.data.map(function(review) {
       return (
         <li key={review._id}>
-          <div className="collapsible-header">{review.title} <small> by {review.author || 'Unknown'}</small></div>
+          <div className="collapsible-header">{review.title} <small> by {review.author? review.author.firstName + ' ' + review.author.lastName : 'Unknown'}</small></div>
           <div className="collapsible-body"><p>{review.body}</p></div>
         </li>
       )

@@ -5,7 +5,8 @@ module.exports = React.createClass({
     return {
       body: '',
       title: '',
-      currentUser: {}
+      currentUser: {},
+      series: {}
     }
   },
   body: function(e) {
@@ -30,7 +31,7 @@ module.exports = React.createClass({
         console.log(data)
       }
     })
-    this.setState({title: '', body: ''})
+    // this.setState({title: '', body: ''})
   },
   componentWillMount: function() {
     $.ajax({
@@ -51,7 +52,7 @@ module.exports = React.createClass({
   render: function() {
     return (
       <div>
-        <h1>Make a Review!</h1>
+        <h1>Review {this.state.series}</h1>
         <form className="col s12" onSubmit={this.submit}>
             <div className="input-field col s12">
               <textarea id="title" className="materialize-textarea" value={this.state.title} onChange={this.title}/>

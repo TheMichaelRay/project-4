@@ -26145,24 +26145,6 @@ module.exports = React.createClass({
             null,
             React.createElement(
               Link,
-              { to: '/review' },
-              'Review'
-            )
-          ),
-          React.createElement(
-            'li',
-            null,
-            React.createElement(
-              Link,
-              { to: '/login' },
-              'Log In'
-            )
-          ),
-          React.createElement(
-            'li',
-            null,
-            React.createElement(
-              Link,
               { to: '/logout' },
               'Logout'
             )
@@ -26176,8 +26158,17 @@ module.exports = React.createClass({
             null,
             React.createElement(
               Link,
-              { to: '/fire' },
-              'Fire!'
+              { to: '/search' },
+              'Search'
+            )
+          ),
+          React.createElement(
+            'li',
+            null,
+            React.createElement(
+              Link,
+              { to: '/logout' },
+              'Logout'
             )
           )
         )
@@ -26196,7 +26187,8 @@ module.exports = React.createClass({
     return {
       body: '',
       title: '',
-      currentUser: {}
+      currentUser: {},
+      series: {}
     };
   },
   body: function (e) {
@@ -26221,7 +26213,7 @@ module.exports = React.createClass({
         console.log(data);
       }
     });
-    this.setState({ title: '', body: '' });
+    // this.setState({title: '', body: ''})
   },
   componentWillMount: function () {
     $.ajax({
@@ -26246,7 +26238,8 @@ module.exports = React.createClass({
       React.createElement(
         'h1',
         null,
-        'Make a Review!'
+        'Review ',
+        this.state.series
       ),
       React.createElement(
         'form',
@@ -26300,27 +26293,11 @@ var { Link } = require('react-router');
 var SeriesList = React.createClass({
   displayName: 'SeriesList',
 
-  componentWillMount: function () {
-    $.ajax({
-      url: '/users/profile',
-      type: 'get',
-      success: function (data) {
-        if (data.success) {
-          this.setState({ currentUser: data.user });
-          console.log(this.state);
-        } else {
-          console.log('redirecting....');
-          // deprecated method
-          this.props.history.push('/login');
-        }
-      }.bind(this)
-    });
-  },
   render: function () {
     var seriesNodes = this.props.data.map(function (series) {
       return React.createElement(
         'div',
-        { className: 'card col m4', key: series.imdbID },
+        { className: 'card hoverable col m4', key: series.imdbID },
         React.createElement(
           'div',
           { className: 'card-image waves-effect waves-block waves-light' },
@@ -26369,6 +26346,22 @@ module.exports = React.createClass({
       type: 'get',
       success: function (data) {
         this.setState({ seriesData: data.Search });
+      }.bind(this)
+    });
+  },
+  componentWillMount: function () {
+    $.ajax({
+      url: '/users/profile',
+      type: 'get',
+      success: function (data) {
+        if (data.success) {
+          this.setState({ currentUser: data.user });
+          console.log(this.state);
+        } else {
+          console.log('redirecting....');
+          // deprecated method
+          this.props.history.push('/login');
+        }
       }.bind(this)
     });
   },

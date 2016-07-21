@@ -2,26 +2,10 @@ var React = require('react')
 var {Link} = require('react-router')
 
 var SeriesList = React.createClass({
-  componentWillMount: function() {
-    $.ajax({
-      url: '/users/profile',
-      type: 'get',
-      success: function(data) {
-        if (data.success) {
-          this.setState({currentUser: data.user})
-          console.log(this.state)
-        } else {
-          console.log('redirecting....')
-          // deprecated method
-          this.props.history.push('/login')
-        }
-      }.bind(this)
-    })
-  },
   render: function() {
     var seriesNodes = this.props.data.map(function(series) {
       return (
-        <div className="card col m4" key={series.imdbID}>
+        <div className="card hoverable col m4" key={series.imdbID}>
           <div className="card-image waves-effect waves-block waves-light">
             <img className="activator responsive-img" src={series.Poster} />
           </div>
@@ -57,6 +41,22 @@ module.exports = React.createClass({
       type: 'get',
       success: function(data) {
         this.setState({seriesData: data.Search})
+      }.bind(this)
+    })
+  },
+  componentWillMount: function() {
+    $.ajax({
+      url: '/users/profile',
+      type: 'get',
+      success: function(data) {
+        if (data.success) {
+          this.setState({currentUser: data.user})
+          console.log(this.state)
+        } else {
+          console.log('redirecting....')
+          // deprecated method
+          this.props.history.push('/login')
+        }
       }.bind(this)
     })
   },

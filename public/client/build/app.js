@@ -25806,28 +25806,26 @@ module.exports = React.createClass({
     return {};
   },
   componentWillMount: function () {
-    console.log('about to load page');
+    this.getUser();
+    // setInterval(this.getUser, 1000)
+  },
+  getUser: function () {
     $.ajax({
       url: '/users/profile',
       type: 'get',
       success: function (data) {
-        if (data.success) {
-          this.setState({ currentUser: data.user });
-          console.log(this.state);
-        } else {
-          console.log('redirecting....');
-          this.props.history.push('/login');
-        }
+        this.setState({ currentUser: data.user });
+        console.log(data);
       }.bind(this)
     });
   },
   render: function () {
     $(".button-collapse").sideNav();
-    console.log(this.state);
+    // console.log(this.state)
     return React.createElement(
       'div',
       null,
-      React.createElement(Nav, null),
+      React.createElement(Nav, { data: this.state.currentUser }),
       React.createElement(
         'div',
         { className: 'container' },
@@ -26088,7 +26086,7 @@ module.exports = React.createClass({
   },
   componentDidMount: function () {
     this.loadUser;
-    // setInterval(this.loadUser, 4000)
+    // setInterval(this.loadUser, 1000)
   },
   render: function () {
     return React.createElement(
@@ -26126,10 +26124,19 @@ module.exports = React.createClass({
           React.createElement(
             'li',
             null,
-            React.createElement(
+            this.props.data ? "Logged in as " + this.props.data.firstName : ''
+          ),
+          React.createElement(
+            'li',
+            null,
+            this.props.data ? React.createElement(
               Link,
               { to: '/logout' },
               'Logout'
+            ) : React.createElement(
+              Link,
+              { to: '/login' },
+              'Sign In'
             )
           )
         ),
@@ -26143,6 +26150,15 @@ module.exports = React.createClass({
               Link,
               { to: '/search' },
               'Search'
+            )
+          ),
+          React.createElement(
+            'li',
+            null,
+            this.props.data ? "Logged in as " + this.props.data.firstName : React.createElement(
+              Link,
+              { to: '/login' },
+              'Sign In'
             )
           ),
           React.createElement(

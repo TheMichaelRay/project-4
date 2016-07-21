@@ -8,27 +8,25 @@ module.exports = React.createClass({
     }
   },
   componentWillMount: function() {
-    console.log('about to load page')
+    this.getUser()
+    // setInterval(this.getUser, 1000)
+  },
+  getUser: function() {
     $.ajax({
       url: '/users/profile',
       type: 'get',
       success: function(data) {
-        if (data.success) {
-          this.setState({currentUser: data.user})
-          console.log(this.state)
-        } else {
-          console.log('redirecting....')
-          this.props.history.push('/login')
-        }
+        this.setState({currentUser: data.user})
+        console.log(data)
       }.bind(this)
     })
   },
   render: function() {
     $(".button-collapse").sideNav();
-    console.log(this.state)
+    // console.log(this.state)
     return (
       <div>
-        < Nav />
+        < Nav data={this.state.currentUser}/>
         <div className="container" >
           { this.props.children }
         </div>

@@ -4,13 +4,12 @@ var SeriesReviews = React.createClass({
   render: function() {
     var reviewNodes = this.props.data.map(function(review) {
       return (
-        <li>
-          <div className="collapsible-header">{review.title}</div>
+        <li key={review._id}>
+          <div className="collapsible-header">{review.title} <small> by {review.author || 'Unknown'}</small></div>
           <div className="collapsible-body"><p>{review.body}</p></div>
         </li>
       )
     })
-
     return (
       <ul className="collapsible" data-collapsible="accordion">
         {reviewNodes}
@@ -18,20 +17,6 @@ var SeriesReviews = React.createClass({
     )
   }
 })
-// <ul className="collapsible" data-collapsible="accordion">
-//   <li>
-//     <div className="collapsible-header">First</div>
-//     <div className="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
-//   </li>
-//   <li>
-//     <div className="collapsible-header">Second</div>
-//     <div className="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
-//   </li>
-//   <li>
-//     <div className="collapsible-header">Third</div>
-//     <div className="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
-//   </li>
-// </ul>
 
 
 module.exports = React.createClass({

@@ -25877,55 +25877,46 @@ module.exports = React.createClass({
 var React = require('react');
 
 var SeriesReviews = React.createClass({
-  displayName: "SeriesReviews",
+  displayName: 'SeriesReviews',
 
   render: function () {
     var reviewNodes = this.props.data.map(function (review) {
       return React.createElement(
-        "li",
-        null,
+        'li',
+        { key: review._id },
         React.createElement(
-          "div",
-          { className: "collapsible-header" },
-          review.title
+          'div',
+          { className: 'collapsible-header' },
+          review.title,
+          ' ',
+          React.createElement(
+            'small',
+            null,
+            ' by ',
+            review.author || 'Unknown'
+          )
         ),
         React.createElement(
-          "div",
-          { className: "collapsible-body" },
+          'div',
+          { className: 'collapsible-body' },
           React.createElement(
-            "p",
+            'p',
             null,
             review.body
           )
         )
       );
     });
-
     return React.createElement(
-      "ul",
-      { className: "collapsible", "data-collapsible": "accordion" },
+      'ul',
+      { className: 'collapsible', 'data-collapsible': 'accordion' },
       reviewNodes
     );
   }
 });
-// <ul className="collapsible" data-collapsible="accordion">
-//   <li>
-//     <div className="collapsible-header">First</div>
-//     <div className="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
-//   </li>
-//   <li>
-//     <div className="collapsible-header">Second</div>
-//     <div className="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
-//   </li>
-//   <li>
-//     <div className="collapsible-header">Third</div>
-//     <div className="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
-//   </li>
-// </ul>
-
 
 module.exports = React.createClass({
-  displayName: "exports",
+  displayName: 'exports',
 
   getInitialState: function () {
     return {
@@ -25951,24 +25942,24 @@ module.exports = React.createClass({
       accordion: false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
     });
     return React.createElement(
-      "div",
+      'div',
       null,
       React.createElement(
-        "div",
-        { className: "row" },
+        'div',
+        { className: 'row' },
         React.createElement(
-          "div",
-          { className: "col s12 center" },
+          'div',
+          { className: 'col s12 center' },
           React.createElement(
-            "h1",
+            'h1',
             null,
-            "New TV Reviews"
+            'New TV Reviews'
           )
         )
       ),
       React.createElement(
-        "div",
-        { className: "row" },
+        'div',
+        { className: 'row' },
         React.createElement(SeriesReviews, { data: this.state.reviewData })
       )
     );

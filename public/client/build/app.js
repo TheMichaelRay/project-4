@@ -26345,11 +26345,6 @@ module.exports = React.createClass({
               { className: 'btn waves-effect waves-light', type: 'submit' },
               'Submit'
             )
-          ),
-          React.createElement(
-            'button',
-            { className: 'btn waves-effect waves-light', type: 'button', onClick: this.test },
-            'Test'
           )
         )
       )

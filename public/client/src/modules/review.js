@@ -126,9 +126,6 @@ module.exports = React.createClass({
                   Submit
                 </button>
             </form>
-            <button className="btn waves-effect waves-light" type="button" onClick={this.test}>
-            Test
-            </button>
           </div>
         </div>
       </div>

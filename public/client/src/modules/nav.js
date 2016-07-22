@@ -20,8 +20,8 @@ module.exports = React.createClass({
   },
   render: function() {
     return (
-      <nav>
-        <div className="nav-wrapper">
+      <nav className="blue">
+        <div className="nav-wrapper deep-orange">
           <Link to="#!" className="brand-logo">Binjr</Link>
           <Link to="#" data-activates="mobile-demo" className="button-collapse"><i className="material-icons">menu</i></Link>
           <ul className="right hide-on-med-and-down">

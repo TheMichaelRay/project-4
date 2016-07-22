@@ -25845,12 +25845,14 @@ var SeriesReviews = React.createClass({
 
   render: function () {
     var reviewNodes = this.props.data.map(function (review) {
+      console.log("review", review.author);
+      console.log("author", this.props.user);
       return React.createElement(
         'li',
         { key: review._id, id: "list-" + review._id },
         React.createElement(
           'div',
-          { className: 'collapsible-header' },
+          { className: review.spoilers ? "red lighten-3 collapsible-header" : "green lighten-3 collapsible-header" },
           review.title,
           ' ',
           React.createElement(
@@ -25862,21 +25864,21 @@ var SeriesReviews = React.createClass({
         ),
         React.createElement(
           'div',
-          { className: 'collapsible-body' },
+          { className: review.spoilers ? "red lighten-4 collapsible-body" : "green lighten-4 collapsible-body" },
           React.createElement(
             'p',
             null,
             review.body
           ),
           React.createElement('hr', null),
-          React.createElement(
+          this.props.user._id == review.author._id ? React.createElement(
             'button',
             { id: review._id, className: 'btn waves-effect waves-light right-align delete-button collapsible' },
             'Delete'
-          )
+          ) : ''
         )
       );
-    });
+    }.bind(this));
     return React.createElement(
       'ul',
       { className: 'collapsible', 'data-collapsible': 'accordion' },
@@ -25943,24 +25945,24 @@ module.exports = React.createClass({
       React.createElement(Nav, { data: this.state.currentUser }),
       React.createElement(
         'div',
+        { className: 'cyan valign-wrapper center-align' },
+        React.createElement(
+          'div',
+          { className: 'row center' },
+          React.createElement(
+            'h2',
+            { className: 'header col s12 light center-align white-text' },
+            'See what others are saying about your favorite shows or discover new ones!'
+          )
+        )
+      ),
+      React.createElement(
+        'div',
         { className: 'container' },
         React.createElement(
           'div',
           { className: 'row' },
-          React.createElement(
-            'div',
-            { className: 'col s12 center' },
-            React.createElement(
-              'h1',
-              null,
-              'New TV Reviews'
-            )
-          )
-        ),
-        React.createElement(
-          'div',
-          { className: 'row' },
-          React.createElement(SeriesReviews, { data: this.state.reviewData })
+          React.createElement(SeriesReviews, { user: this.state.currentUser, data: this.state.reviewData })
         )
       )
     );
@@ -26069,6 +26071,7 @@ module.exports = React.createClass({
       url: '/users/logout',
       type: 'get',
       success: function (data) {
+
         this.props.history.push('/');
       }.bind(this)
     });
@@ -26104,10 +26107,10 @@ module.exports = React.createClass({
   render: function () {
     return React.createElement(
       'nav',
-      null,
+      { className: 'blue' },
       React.createElement(
         'div',
-        { className: 'nav-wrapper' },
+        { className: 'nav-wrapper deep-orange' },
         React.createElement(
           Link,
           { to: '#!', className: 'brand-logo' },

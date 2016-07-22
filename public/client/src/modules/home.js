@@ -4,19 +4,21 @@ var Nav = require('./nav');
 var SeriesReviews = React.createClass({
   render: function() {
     var reviewNodes = this.props.data.map(function(review) {
+      console.log("review", review.author)
+      console.log("author", this.props.user)
       return (
         <li key={review._id} id={"list-" + review._id}>
-          <div className="collapsible-header">
+          <div className={review.spoilers ? "red lighten-3 collapsible-header" : "green lighten-3 collapsible-header"}>
             {review.title} <small> by {review.author? review.author.firstName + ' ' + review.author.lastName : 'Unknown'}</small>
           </div>
-          <div className="collapsible-body">
+          <div className={review.spoilers ? "red lighten-4 collapsible-body" : "green lighten-4 collapsible-body"} >
             <p>{review.body}</p>
             <hr/>
-            <button id={review._id} className="btn waves-effect waves-light right-align delete-button collapsible">Delete</button>
+            { this.props.user._id == review.author._id ? <button id={review._id} className="btn waves-effect waves-light right-align delete-button collapsible">Delete</button> : ''}
           </div>
         </li>
       )
-    })
+    }.bind(this))
     return (
       <ul className="collapsible" data-collapsible="accordion">
         {reviewNodes}
@@ -79,14 +81,14 @@ module.exports = React.createClass({
     return (
       <div>
         <Nav data={this.state.currentUser}/>
+        <div className="cyan valign-wrapper center-align">
+          <div className="row center">
+            <h2 className="header col s12 light center-align white-text">See what others are saying about your favorite shows or discover new ones!</h2>
+          </div>
+        </div>
         <div className="container">
           <div className="row">
-            <div className="col s12 center">
-              <h1>New TV Reviews</h1>
-            </div>
-          </div>
-          <div className="row">
-            <SeriesReviews data={this.state.reviewData}/>
+            <SeriesReviews user={this.state.currentUser} data={this.state.reviewData}/>
           </div>
         </div>
       </div>

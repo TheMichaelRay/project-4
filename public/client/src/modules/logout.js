@@ -6,6 +6,7 @@ module.exports = React.createClass({
       url: '/users/logout',
       type: 'get',
       success: function(data) {
+
         this.props.history.push('/')
       }.bind(this)
     })

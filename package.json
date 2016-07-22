@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "node",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "browserify -t [ babelify --presets [ react ] ] public/client/src/index.js -o public/client/build/app.js",
     "watch": "watchify -t [ babelify --presets [ react ] ] public/client/src/index.js -o public/client/build/app.js"

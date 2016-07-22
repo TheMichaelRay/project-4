@@ -22,7 +22,7 @@ var reviews = require('./routes/reviews');
 var app = express();
 
 // initializes mongodb
-mongoose.connect('mongodb://localhost/binjr', function(err) {
+mongoose.connect(process.env.MONGOURL, function(err) {
   if (err) throw err;
   console.log('Connected to mongodb (binjr)')
 })

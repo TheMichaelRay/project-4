@@ -26674,8 +26674,8 @@ module.exports = React.createClass({
       // data: JSON.stringify(newUser),
       data: newUser,
       success: function (data) {
-        console.log('receiving from /users/login', data);
-      },
+        this.props.history.push('/');
+      }.bind(this),
       error: function (xhr, status, err) {
         console.error(this.props.url, status, err.toString());
       }.bind(this)

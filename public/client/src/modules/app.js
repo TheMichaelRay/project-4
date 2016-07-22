@@ -26,11 +26,14 @@ module.exports = React.createClass({
     // console.log(this.state)
     return (
       <div>
-        < Nav data={this.state.currentUser}/>
-        <div className="container" >
-          { this.props.children }
-        </div>
+        {this.props.children}
       </div>
     )
   }
 })
+
+// < Nav data={this.state.currentUser}/>
+// <div className="container" >
+//   { this.props.children }
+// </div>
+//

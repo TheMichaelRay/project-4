@@ -1,4 +1,5 @@
 var React = require('react')
+var Nav = require('./nav');
 
 // var Seasons = React.createClass ({
 //   render: function() {
@@ -102,30 +103,33 @@ module.exports = React.createClass({
   render: function() {
     return (
       <div>
-        <div className="col s12 center-align">
-          <h1>Review {this.state.series.Title}</h1>
-        </div>
-        <div className="row">
-          <form className="col s12" onSubmit={this.submit}>
-              <div className="input-field col s12">
-                <input id="body" type="text" className="validate" value={this.state.body} onChange={this.body}/>
-                <label htmlFor="body">*Body</label>
-              </div>
-              <div className="switch">
-                <label>
-                  No Spoilers
-                  <input type="checkbox" onChange={this.spoiler} />
-                  <span className="lever"></span>
-                  Spoilers
-                </label>
-              </div>
-              <button className="btn waves-effect waves-light" type="submit">
-                Submit
-              </button>
-          </form>
-          <button className="btn waves-effect waves-light" type="button" onClick={this.test}>
-          Test
-          </button>
+        <Nav data={this.state.currentUser}/>
+        <div className="container">
+          <div className="col s12 center-align">
+            <h1>Review {this.state.series.Title}</h1>
+          </div>
+          <div className="row">
+            <form className="col s12" onSubmit={this.submit}>
+                <div className="input-field col s12">
+                  <input id="body" type="text" className="validate" value={this.state.body} onChange={this.body}/>
+                  <label htmlFor="body">*Body</label>
+                </div>
+                <div className="switch">
+                  <label>
+                    No Spoilers
+                    <input type="checkbox" onChange={this.spoiler} />
+                    <span className="lever"></span>
+                    Spoilers
+                  </label>
+                </div>
+                <button className="btn waves-effect waves-light" type="submit">
+                  Submit
+                </button>
+            </form>
+            <button className="btn waves-effect waves-light" type="button" onClick={this.test}>
+            Test
+            </button>
+          </div>
         </div>
       </div>
     )

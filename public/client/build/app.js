@@ -25825,66 +25825,68 @@ module.exports = React.createClass({
     return React.createElement(
       'div',
       null,
-      React.createElement(Nav, { data: this.state.currentUser }),
-      React.createElement(
-        'div',
-        { className: 'container' },
-        this.props.children
-      )
+      this.props.children
     );
   }
 });
 
+// < Nav data={this.state.currentUser}/>
+// <div className="container" >
+//   { this.props.children }
+// </div>
+//
+
 },{"./nav":240,"./signup":245,"react":232}],237:[function(require,module,exports){
 var React = require('react');
+var Nav = require('./nav');
 
 var SeriesReviews = React.createClass({
-  displayName: "SeriesReviews",
+  displayName: 'SeriesReviews',
 
   render: function () {
     var reviewNodes = this.props.data.map(function (review) {
       return React.createElement(
-        "li",
+        'li',
         { key: review._id, id: "list-" + review._id },
         React.createElement(
-          "div",
-          { className: "collapsible-header" },
+          'div',
+          { className: 'collapsible-header' },
           review.title,
-          " ",
+          ' ',
           React.createElement(
-            "small",
+            'small',
             null,
-            " by ",
+            ' by ',
             review.author ? review.author.firstName + ' ' + review.author.lastName : 'Unknown'
           )
         ),
         React.createElement(
-          "div",
-          { className: "collapsible-body" },
+          'div',
+          { className: 'collapsible-body' },
           React.createElement(
-            "p",
+            'p',
             null,
             review.body
           ),
-          React.createElement("hr", null),
+          React.createElement('hr', null),
           React.createElement(
-            "button",
-            { id: review._id, className: "btn waves-effect waves-light right-align delete-button collapsible" },
-            "Delete"
+            'button',
+            { id: review._id, className: 'btn waves-effect waves-light right-align delete-button collapsible' },
+            'Delete'
           )
         )
       );
     });
     return React.createElement(
-      "ul",
-      { className: "collapsible", "data-collapsible": "accordion" },
+      'ul',
+      { className: 'collapsible', 'data-collapsible': 'accordion' },
       reviewNodes
     );
   }
 });
 
 module.exports = React.createClass({
-  displayName: "exports",
+  displayName: 'exports',
 
   getInitialState: function () {
     return {
@@ -25936,33 +25938,39 @@ module.exports = React.createClass({
       accordion: false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
     });
     return React.createElement(
-      "div",
+      'div',
       null,
+      React.createElement(Nav, { data: this.state.currentUser }),
       React.createElement(
-        "div",
-        { className: "row" },
+        'div',
+        { className: 'container' },
         React.createElement(
-          "div",
-          { className: "col s12 center" },
+          'div',
+          { className: 'row' },
           React.createElement(
-            "h1",
-            null,
-            "New TV Reviews"
+            'div',
+            { className: 'col s12 center' },
+            React.createElement(
+              'h1',
+              null,
+              'New TV Reviews'
+            )
           )
+        ),
+        React.createElement(
+          'div',
+          { className: 'row' },
+          React.createElement(SeriesReviews, { data: this.state.reviewData })
         )
-      ),
-      React.createElement(
-        "div",
-        { className: "row" },
-        React.createElement(SeriesReviews, { data: this.state.reviewData })
       )
     );
   }
 });
 
-},{"react":232}],238:[function(require,module,exports){
+},{"./nav":240,"react":232}],238:[function(require,module,exports){
 var React = require('react');
 var { Link } = require('react-router');
+var Nav = require('./nav');
 
 module.exports = React.createClass({
   displayName: 'exports',
@@ -26007,45 +26015,50 @@ module.exports = React.createClass({
     return React.createElement(
       'div',
       null,
+      React.createElement(Nav, { data: this.state.currentUser }),
       React.createElement(
-        'form',
-        { className: 'col s12', onSubmit: this.submit },
+        'div',
+        { className: 'container' },
         React.createElement(
-          'div',
-          { className: 'input-field col s12' },
-          React.createElement('input', { id: 'email', type: 'email', className: 'validate', value: this.state.email, onChange: this.email }),
+          'form',
+          { className: 'col s12', onSubmit: this.submit },
           React.createElement(
-            'label',
-            { htmlFor: 'email' },
-            '*Email'
-          )
-        ),
-        React.createElement(
-          'div',
-          { className: 'input-field col s12' },
-          React.createElement('input', { id: 'password', type: 'password', className: 'validate', value: this.state.password, onChange: this.password }),
+            'div',
+            { className: 'input-field col s12' },
+            React.createElement('input', { id: 'email', type: 'email', className: 'validate', value: this.state.email, onChange: this.email }),
+            React.createElement(
+              'label',
+              { htmlFor: 'email' },
+              '*Email'
+            )
+          ),
           React.createElement(
-            'label',
-            { htmlFor: 'password' },
-            '*Password'
+            'div',
+            { className: 'input-field col s12' },
+            React.createElement('input', { id: 'password', type: 'password', className: 'validate', value: this.state.password, onChange: this.password }),
+            React.createElement(
+              'label',
+              { htmlFor: 'password' },
+              '*Password'
+            )
+          ),
+          React.createElement(
+            'button',
+            { className: 'btn waves-effect waves-light', type: 'submit' },
+            'Log In'
+          ),
+          React.createElement(
+            Link,
+            { className: 'btn waves-effect waves-light', to: '/signup' },
+            'Sign Up'
           )
-        ),
-        React.createElement(
-          'button',
-          { className: 'btn waves-effect waves-light', type: 'submit' },
-          'Log In'
-        ),
-        React.createElement(
-          Link,
-          { className: 'btn waves-effect waves-light', to: '/signup' },
-          'Sign Up'
         )
       )
     );
   }
 });
 
-},{"react":232,"react-router":82}],239:[function(require,module,exports){
+},{"./nav":240,"react":232,"react-router":82}],239:[function(require,module,exports){
 var React = require('react');
 
 module.exports = React.createClass({
@@ -26178,6 +26191,7 @@ module.exports = React.createClass({
 
 },{"react":232,"react-router":82}],241:[function(require,module,exports){
 var React = require('react');
+var Nav = require('./nav');
 
 // var Seasons = React.createClass ({
 //   render: function() {
@@ -26284,75 +26298,71 @@ module.exports = React.createClass({
     return React.createElement(
       'div',
       null,
+      React.createElement(Nav, { data: this.state.currentUser }),
       React.createElement(
         'div',
-        { className: 'col s12 center-align' },
+        { className: 'container' },
         React.createElement(
-          'h1',
-          null,
-          'Review ',
-          this.state.series.Title
-        )
-      ),
-      React.createElement(
-        'div',
-        { className: 'row' },
+          'div',
+          { className: 'col s12 center-align' },
+          React.createElement(
+            'h1',
+            null,
+            'Review ',
+            this.state.series.Title
+          )
+        ),
         React.createElement(
-          'form',
-          { className: 'col s12', onSubmit: this.submit },
+          'div',
+          { className: 'row' },
           React.createElement(
-            'div',
-            { className: 'input-field col s12' },
-            React.createElement('input', { id: 'body', type: 'text', className: 'validate', value: this.state.body, onChange: this.body }),
+            'form',
+            { className: 'col s12', onSubmit: this.submit },
             React.createElement(
-              'label',
-              { htmlFor: 'body' },
-              '*Body'
-            )
-          ),
-          React.createElement(
-            'div',
-            { className: 'switch' },
+              'div',
+              { className: 'input-field col s12' },
+              React.createElement('input', { id: 'body', type: 'text', className: 'validate', value: this.state.body, onChange: this.body }),
+              React.createElement(
+                'label',
+                { htmlFor: 'body' },
+                '*Body'
+              )
+            ),
             React.createElement(
-              'label',
-              null,
-              'No Spoilers',
-              React.createElement('input', { type: 'checkbox', onChange: this.spoiler }),
-              React.createElement('span', { className: 'lever' }),
-              'Spoilers'
+              'div',
+              { className: 'switch' },
+              React.createElement(
+                'label',
+                null,
+                'No Spoilers',
+                React.createElement('input', { type: 'checkbox', onChange: this.spoiler }),
+                React.createElement('span', { className: 'lever' }),
+                'Spoilers'
+              )
+            ),
+            React.createElement(
+              'button',
+              { className: 'btn waves-effect waves-light', type: 'submit' },
+              'Submit'
             )
           ),
           React.createElement(
             'button',
-            { className: 'btn waves-effect waves-light', type: 'submit' },
-            'Submit'
+            { className: 'btn waves-effect waves-light', type: 'button', onClick: this.test },
+            'Test'
           )
-        ),
-        React.createElement(
-          'button',
-          { className: 'btn waves-effect waves-light', type: 'button', onClick: this.test },
-          'Test'
         )
       )
     );
   }
 });
 
-},{"react":232}],242:[function(require,module,exports){
-// var React = require('react')
-// var {DefaultRoute, NotFoundRoute, Route} = require('react-router')
-// var Test = require('./app')
-// var Fire = require('./fire')
-//
-// module.exports = (
-//   <Route path="/" component={Test}>
-//     <Route path="/fire" component={Fire} />
-//   </Route>
-// )
+},{"./nav":240,"react":232}],242:[function(require,module,exports){
 
 },{}],243:[function(require,module,exports){
 var React = require('react');
 var { Link } = require('react-router');
+var Nav = require('./nav');
 
 var SeriesList = React.createClass({
   displayName: 'SeriesList',
@@ -26452,32 +26462,38 @@ module.exports = React.createClass({
     return React.createElement(
       'div',
       null,
+      React.createElement(Nav, { data: this.state.currentUser }),
       React.createElement(
-        'form',
-        { className: 'col s12', onSubmit: this.search },
+        'div',
+        { className: 'container' },
         React.createElement(
-          'div',
-          { className: 'row' },
+          'form',
+          { className: 'col s12', onSubmit: this.search },
           React.createElement(
             'div',
-            { className: 'input-field col s12' },
-            React.createElement('input', { id: 'search', type: 'text', value: this.state.search, onChange: this.searchFill, className: 'validate', autoComplete: 'off' }),
+            { className: 'row' },
             React.createElement(
-              'label',
-              { htmlFor: 'search' },
-              'Search for Series'
+              'div',
+              { className: 'input-field col s12' },
+              React.createElement('input', { id: 'search', type: 'text', value: this.state.search, onChange: this.searchFill, className: 'validate', autoComplete: 'off' }),
+              React.createElement(
+                'label',
+                { htmlFor: 'search' },
+                'Search for Series'
+              )
             )
           )
-        )
-      ),
-      React.createElement(SeriesList, { data: this.state.seriesData })
+        ),
+        React.createElement(SeriesList, { data: this.state.seriesData })
+      )
     );
   }
 });
 
-},{"react":232,"react-router":82}],244:[function(require,module,exports){
+},{"./nav":240,"react":232,"react-router":82}],244:[function(require,module,exports){
 var React = require('react');
 var { Link } = require('react-router');
+var Nav = require('./nav');
 
 module.exports = React.createClass({
   displayName: 'exports',
@@ -26516,96 +26532,101 @@ module.exports = React.createClass({
     return React.createElement(
       'div',
       null,
-      React.createElement('hr', null),
+      React.createElement(Nav, { data: this.state.currentUser }),
       React.createElement(
         'div',
-        { className: 'row' },
+        { className: 'container' },
+        React.createElement('hr', null),
         React.createElement(
           'div',
-          { className: 'col m4' },
-          React.createElement('img', { className: 'activator responsive-img', src: this.state.series.Poster })
-        ),
-        React.createElement(
-          'div',
-          { className: 'col m8' },
+          { className: 'row' },
           React.createElement(
-            'h5',
-            null,
-            React.createElement(
-              'small',
-              null,
-              'Title:'
-            ),
-            ' ',
-            this.state.series.Title,
-            ' '
+            'div',
+            { className: 'col m4' },
+            React.createElement('img', { className: 'activator responsive-img', src: this.state.series.Poster })
           ),
           React.createElement(
-            'h5',
-            null,
+            'div',
+            { className: 'col m8' },
             React.createElement(
-              'small',
+              'h5',
               null,
-              'Genre:'
+              React.createElement(
+                'small',
+                null,
+                'Title:'
+              ),
+              ' ',
+              this.state.series.Title,
+              ' '
             ),
-            ' ',
-            this.state.series.Genre,
-            ' '
-          ),
-          React.createElement(
-            'h5',
-            null,
             React.createElement(
-              'small',
+              'h5',
               null,
-              'Year:'
+              React.createElement(
+                'small',
+                null,
+                'Genre:'
+              ),
+              ' ',
+              this.state.series.Genre,
+              ' '
             ),
-            ' ',
-            this.state.series.Year,
-            ' '
-          ),
-          React.createElement(
-            'h5',
-            null,
             React.createElement(
-              'small',
+              'h5',
               null,
-              'Seasons:'
+              React.createElement(
+                'small',
+                null,
+                'Year:'
+              ),
+              ' ',
+              this.state.series.Year,
+              ' '
             ),
-            ' ',
-            this.state.series.totalSeasons,
-            ' '
-          ),
-          React.createElement(
-            'h5',
-            null,
             React.createElement(
-              'small',
+              'h5',
               null,
-              'Plot:'
+              React.createElement(
+                'small',
+                null,
+                'Seasons:'
+              ),
+              ' ',
+              this.state.series.totalSeasons,
+              ' '
+            ),
+            React.createElement(
+              'h5',
+              null,
+              React.createElement(
+                'small',
+                null,
+                'Plot:'
+              )
+            ),
+            React.createElement('hr', null),
+            React.createElement(
+              'p',
+              { className: 'flow-text' },
+              this.state.series.Plot
             )
-          ),
-          React.createElement('hr', null),
-          React.createElement(
-            'p',
-            { className: 'flow-text' },
-            this.state.series.Plot
           )
-        )
-      ),
-      React.createElement('hr', null),
-      React.createElement(
-        'div',
-        { className: 'row' },
-        React.createElement(
-          Link,
-          { className: 'col m6 btn waves-effect waves-light', to: '/search' },
-          '  ⬅️ Back to Search '
         ),
+        React.createElement('hr', null),
         React.createElement(
-          Link,
-          { className: 'col m6 btn waves-effect waves-light', to: "/review/" + this.state.series.imdbID },
-          'Review ➡️ '
+          'div',
+          { className: 'row' },
+          React.createElement(
+            Link,
+            { className: 'col m6 btn waves-effect waves-light', to: '/search' },
+            '  ⬅️ Back to Search '
+          ),
+          React.createElement(
+            Link,
+            { className: 'col m6 btn waves-effect waves-light', to: "/review/" + this.state.series.imdbID },
+            'Review ➡️ '
+          )
         )
       )
     );
@@ -26613,9 +26634,10 @@ module.exports = React.createClass({
 
 });
 
-},{"react":232,"react-router":82}],245:[function(require,module,exports){
+},{"./nav":240,"react":232,"react-router":82}],245:[function(require,module,exports){
 var React = require('react');
 var { Link } = require('react-router');
+var Nav = require('./nav');
 
 module.exports = React.createClass({
   displayName: 'exports',
@@ -26686,92 +26708,97 @@ module.exports = React.createClass({
     return React.createElement(
       'div',
       null,
+      React.createElement(Nav, { data: this.state.currentUser }),
       React.createElement(
-        'form',
-        { className: 'col s12', onSubmit: this.submit },
+        'div',
+        { className: 'container' },
         React.createElement(
-          'div',
-          { className: 'input-field col s12' },
-          React.createElement('input', { id: 'firstName', type: 'text', className: 'validate', value: this.state.firstName, onChange: this.firstName }),
+          'form',
+          { className: 'col s12', onSubmit: this.submit },
           React.createElement(
-            'label',
-            { htmlFor: 'firstName' },
-            '*First Name'
-          )
-        ),
-        React.createElement(
-          'div',
-          { className: 'input-field col s12' },
-          React.createElement('input', { id: 'lastName', type: 'text', className: 'validate', value: this.state.lastName, onChange: this.lastName }),
+            'div',
+            { className: 'input-field col s12' },
+            React.createElement('input', { id: 'firstName', type: 'text', className: 'validate', value: this.state.firstName, onChange: this.firstName }),
+            React.createElement(
+              'label',
+              { htmlFor: 'firstName' },
+              '*First Name'
+            )
+          ),
           React.createElement(
-            'label',
-            { htmlFor: 'lastName' },
-            '*Last Name'
-          )
-        ),
-        React.createElement(
-          'div',
-          { className: 'input-field col s12' },
-          React.createElement('input', { id: 'email', type: 'email', className: 'validate', value: this.state.email, onChange: this.email }),
+            'div',
+            { className: 'input-field col s12' },
+            React.createElement('input', { id: 'lastName', type: 'text', className: 'validate', value: this.state.lastName, onChange: this.lastName }),
+            React.createElement(
+              'label',
+              { htmlFor: 'lastName' },
+              '*Last Name'
+            )
+          ),
           React.createElement(
-            'label',
-            { htmlFor: 'email' },
-            '*Email'
-          )
-        ),
-        React.createElement(
-          'div',
-          { className: 'input-field col s12' },
-          React.createElement('input', { id: 'password', type: 'password', className: 'validate', value: this.state.password, onChange: this.password }),
+            'div',
+            { className: 'input-field col s12' },
+            React.createElement('input', { id: 'email', type: 'email', className: 'validate', value: this.state.email, onChange: this.email }),
+            React.createElement(
+              'label',
+              { htmlFor: 'email' },
+              '*Email'
+            )
+          ),
           React.createElement(
-            'label',
-            { htmlFor: 'password' },
-            '*Password'
-          )
-        ),
-        React.createElement(
-          'div',
-          { className: 'input-field col s12' },
-          React.createElement('input', { id: 'avatar', type: 'text', className: 'validate', value: this.state.avatar, onChange: this.avatar }),
+            'div',
+            { className: 'input-field col s12' },
+            React.createElement('input', { id: 'password', type: 'password', className: 'validate', value: this.state.password, onChange: this.password }),
+            React.createElement(
+              'label',
+              { htmlFor: 'password' },
+              '*Password'
+            )
+          ),
           React.createElement(
-            'label',
-            { htmlFor: 'avatar' },
-            'Avatar'
-          )
-        ),
-        React.createElement(
-          'div',
-          { className: 'input-field col s12' },
-          React.createElement('textarea', { id: 'bio', className: 'materialize-textarea', value: this.state.bio, onChange: this.bio }),
+            'div',
+            { className: 'input-field col s12' },
+            React.createElement('input', { id: 'avatar', type: 'text', className: 'validate', value: this.state.avatar, onChange: this.avatar }),
+            React.createElement(
+              'label',
+              { htmlFor: 'avatar' },
+              'Avatar'
+            )
+          ),
           React.createElement(
-            'label',
-            { htmlFor: 'bio' },
-            'Bio'
-          )
-        ),
-        React.createElement(
-          'div',
-          { className: 'input-field col s12' },
-          React.createElement('input', { id: 'age', type: 'text', className: 'validate', value: this.state.age, onChange: this.age }),
+            'div',
+            { className: 'input-field col s12' },
+            React.createElement('textarea', { id: 'bio', className: 'materialize-textarea', value: this.state.bio, onChange: this.bio }),
+            React.createElement(
+              'label',
+              { htmlFor: 'bio' },
+              'Bio'
+            )
+          ),
           React.createElement(
-            'label',
-            { htmlFor: 'age' },
-            '*Age'
+            'div',
+            { className: 'input-field col s12' },
+            React.createElement('input', { id: 'age', type: 'text', className: 'validate', value: this.state.age, onChange: this.age }),
+            React.createElement(
+              'label',
+              { htmlFor: 'age' },
+              '*Age'
+            )
+          ),
+          React.createElement(
+            'button',
+            { className: 'btn waves-effect waves-light', type: 'submit' },
+            'Sign Up'
+          ),
+          React.createElement(
+            Link,
+            { className: 'btn waves-effect waves-light', to: '/login' },
+            'Log In'
           )
-        ),
-        React.createElement(
-          'button',
-          { className: 'btn waves-effect waves-light', type: 'submit' },
-          'Sign Up'
-        ),
-        React.createElement(
-          Link,
-          { className: 'btn waves-effect waves-light', to: '/login' },
-          'Log In'
         )
       )
     );
   }
 });
 
-},{"react":232,"react-router":82}]},{},[235]);
+},{"./nav":240,"react":232,"react-router":82}]},{},[235]);

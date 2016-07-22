@@ -1,5 +1,6 @@
 var React = require('react')
 var {Link} = require('react-router')
+var Nav = require('./nav');
 
 var SeriesList = React.createClass({
   render: function() {
@@ -74,15 +75,18 @@ module.exports = React.createClass({
   render: function() {
     return (
       <div>
-        <form className="col s12" onSubmit={this.search}>
-          <div className="row">
-            <div className="input-field col s12">
-              <input id="search" type="text" value={this.state.search} onChange={this.searchFill} className="validate" autoComplete="off"/>
-              <label htmlFor="search">Search for Series</label>
+        <Nav data={this.state.currentUser} />
+        <div className="container">
+          <form className="col s12" onSubmit={this.search}>
+            <div className="row">
+              <div className="input-field col s12">
+                <input id="search" type="text" value={this.state.search} onChange={this.searchFill} className="validate" autoComplete="off"/>
+                <label htmlFor="search">Search for Series</label>
+              </div>
             </div>
-          </div>
-        </form>
-        < SeriesList data={this.state.seriesData} />
+          </form>
+          < SeriesList data={this.state.seriesData} />
+        </div>
       </div>
     )
   }

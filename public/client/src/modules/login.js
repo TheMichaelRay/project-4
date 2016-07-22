@@ -1,6 +1,6 @@
 var React = require('react')
 var {Link} = require('react-router')
-
+var Nav = require('./nav');
 
 module.exports = React.createClass({
   getInitialState: function() {
@@ -42,22 +42,25 @@ module.exports = React.createClass({
   render: function() {
     return (
       <div>
-        <form className="col s12" onSubmit={this.submit}>
-            <div className="input-field col s12">
-              <input id="email" type="email" className="validate" value={this.state.email} onChange={this.email}/>
-              <label htmlFor="email">*Email</label>
-            </div>
-            <div className="input-field col s12">
-              <input id="password" type="password" className="validate" value={this.state.password} onChange={this.password}/>
-              <label htmlFor="password">*Password</label>
-            </div>
-            <button className="btn waves-effect waves-light" type="submit">
-              Log In
-            </button>
-            <Link className="btn waves-effect waves-light" to="/signup">
-              Sign Up
-            </Link>
-        </form>
+        <Nav data={this.state.currentUser}/>
+        <div className="container">
+          <form className="col s12" onSubmit={this.submit}>
+              <div className="input-field col s12">
+                <input id="email" type="email" className="validate" value={this.state.email} onChange={this.email}/>
+                <label htmlFor="email">*Email</label>
+              </div>
+              <div className="input-field col s12">
+                <input id="password" type="password" className="validate" value={this.state.password} onChange={this.password}/>
+                <label htmlFor="password">*Password</label>
+              </div>
+              <button className="btn waves-effect waves-light" type="submit">
+                Log In
+              </button>
+              <Link className="btn waves-effect waves-light" to="/signup">
+                Sign Up
+              </Link>
+          </form>
+        </div>
       </div>
     )
   }

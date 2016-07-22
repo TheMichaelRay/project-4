@@ -1,4 +1,5 @@
 var React = require('react');
+var Nav = require('./nav');
 
 var SeriesReviews = React.createClass({
   render: function() {
@@ -77,13 +78,16 @@ module.exports = React.createClass({
     });
     return (
       <div>
-        <div className="row">
-          <div className="col s12 center">
-            <h1>New TV Reviews</h1>
+        <Nav data={this.state.currentUser}/>
+        <div className="container">
+          <div className="row">
+            <div className="col s12 center">
+              <h1>New TV Reviews</h1>
+            </div>
           </div>
-        </div>
-        <div className="row">
-          <SeriesReviews data={this.state.reviewData}/>
+          <div className="row">
+            <SeriesReviews data={this.state.reviewData}/>
+          </div>
         </div>
       </div>
     )

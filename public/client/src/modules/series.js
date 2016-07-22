@@ -1,5 +1,6 @@
 var React = require('react')
 var {Link} = require('react-router')
+var Nav = require('./nav');
 
 module.exports = React.createClass({
   getInitialState: function() {
@@ -35,25 +36,28 @@ module.exports = React.createClass({
   render: function() {
     return (
       <div>
-        <hr/>
-        <div className="row">
-          <div className="col m4">
-           <img className="activator responsive-img" src={this.state.series.Poster} />
+        <Nav data={this.state.currentUser}/>
+        <div className="container">
+          <hr/>
+          <div className="row">
+            <div className="col m4">
+             <img className="activator responsive-img" src={this.state.series.Poster} />
+            </div>
+            <div className="col m8">
+              <h5><small>Title:</small> {this.state.series.Title} </h5>
+              <h5><small>Genre:</small> {this.state.series.Genre} </h5>
+              <h5><small>Year:</small> {this.state.series.Year} </h5>
+              <h5><small>Seasons:</small> {this.state.series.totalSeasons} </h5>
+              <h5><small>Plot:</small></h5>
+              <hr/>
+              <p className="flow-text">{this.state.series.Plot}</p>
+            </div>
           </div>
-          <div className="col m8">
-            <h5><small>Title:</small> {this.state.series.Title} </h5>
-            <h5><small>Genre:</small> {this.state.series.Genre} </h5>
-            <h5><small>Year:</small> {this.state.series.Year} </h5>
-            <h5><small>Seasons:</small> {this.state.series.totalSeasons} </h5>
-            <h5><small>Plot:</small></h5>
-            <hr/>
-            <p className="flow-text">{this.state.series.Plot}</p>
+          <hr/>
+          <div className="row">
+            <Link className="col m6 btn waves-effect waves-light" to="/search">  ⬅️ Back to Search </Link>
+            <Link className="col m6 btn waves-effect waves-light" to={"/review/" + this.state.series.imdbID}>Review ➡️ </Link>
           </div>
-        </div>
-        <hr/>
-        <div className="row">
-          <Link className="col m6 btn waves-effect waves-light" to="/search">  ⬅️ Back to Search </Link>
-          <Link className="col m6 btn waves-effect waves-light" to={"/review/" + this.state.series.imdbID}>Review ➡️ </Link>
         </div>
       </div>
     )

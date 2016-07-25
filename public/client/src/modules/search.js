@@ -47,7 +47,7 @@ module.exports = React.createClass({
   },
   search: function(e) {
     e.preventDefault()
-    var url = 'http://www.omdbapi.com/?s=' + (this.state.search) + '&&type=series'
+    var url = 'https://www.omdbapi.com/?s=' + (this.state.search) + '&&type=series'
     $.ajax({
       url: url,
       type: 'get',

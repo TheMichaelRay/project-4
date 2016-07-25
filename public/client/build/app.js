@@ -26260,7 +26260,7 @@ module.exports = React.createClass({
     });
   },
   componentWillMount: function () {
-    var url = 'http://www.omdbapi.com/?i=' + this.props.params.id;
+    var url = 'https://www.omdbapi.com/?i=' + this.props.params.id;
     $.ajax({
       url: '/users/profile',
       type: 'get',
@@ -26431,7 +26431,7 @@ module.exports = React.createClass({
   },
   search: function (e) {
     e.preventDefault();
-    var url = 'http://www.omdbapi.com/?s=' + this.state.search + '&&type=series';
+    var url = 'https://www.omdbapi.com/?s=' + this.state.search + '&&type=series';
     $.ajax({
       url: url,
       type: 'get',
@@ -26502,7 +26502,7 @@ module.exports = React.createClass({
     };
   },
   componentWillMount: function () {
-    var url = 'http://www.omdbapi.com/?i=' + this.props.params.id + '&&plot=full';
+    var url = 'https://www.omdbapi.com/?i=' + this.props.params.id + '&&plot=full';
     $.ajax({
       url: '/users/profile',
       type: 'get',

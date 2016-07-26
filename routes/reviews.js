@@ -24,10 +24,11 @@ reviewRouter.route('/:id')
     })
   })
   .delete(function(req, res) {
-    Review.findByIdAndRemove(req.params.id, function(err, review) {
-      if (err) throw err;
-      res.json({success: true, review: review})
-    })
+    res.json({success: true, message: 'deleted'})
+    // Review.findByIdAndRemove(req.params.id, function(err, review) {
+    //   if (err) throw err;
+    //   res.json({success: true, review: review})
+    // })
   })
   .patch(function(req, res) {
     Review.findByIdAndUpdate(req.params.id, req.body, {new: true}, function(err, review) {

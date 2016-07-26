@@ -25919,17 +25919,17 @@ module.exports = React.createClass({
     });
   },
   delete: function (e) {
-    console.log(e.target);
-    // var url = '/reviews/' + e.target.id
-    // var $list = $('#list-' + e.target.id)
-    // $list.remove()
-    // $.ajax({
-    //   url: url,
-    //   type: 'delete',
-    //   success: function(data) {
-    //     console.log(data)
-    //   }.bind(this)
-    // })
+    // console.log(e.target)
+    var url = '/reviews/' + e.target.id;
+    var $list = $('#list-' + e.target.id);
+    $list.remove();
+    $.ajax({
+      url: url,
+      type: 'delete',
+      success: function (data) {
+        console.log(data);
+      }.bind(this)
+    });
   },
   render: function () {
     $('.collapsible').collapsible({

@@ -25845,8 +25845,6 @@ var SeriesReviews = React.createClass({
 
   render: function () {
     var reviewNodes = this.props.data.map(function (review) {
-      console.log("review", review.author);
-      console.log("author", this.props.user);
       return React.createElement(
         'li',
         { key: review._id, id: "list-" + review._id },
@@ -25903,9 +25901,7 @@ module.exports = React.createClass({
       success: function (data) {
         if (data.success) {
           this.setState({ currentUser: data.user });
-          console.log(this.state);
         } else {
-          console.log('redirecting....');
           // deprecated method
           this.props.history.push('/login');
         }
@@ -25918,22 +25914,22 @@ module.exports = React.createClass({
         this.setState({
           reviewData: data
         });
-        console.log(data);
         $('.delete-button').click(this.delete);
       }.bind(this)
     });
   },
   delete: function (e) {
-    var url = '/reviews/' + e.target.id;
-    var $list = $('#list-' + e.target.id);
-    $list.remove();
-    $.ajax({
-      url: url,
-      type: 'delete',
-      success: function (data) {
-        console.log(data);
-      }.bind(this)
-    });
+    console.log(e.target);
+    // var url = '/reviews/' + e.target.id
+    // var $list = $('#list-' + e.target.id)
+    // $list.remove()
+    // $.ajax({
+    //   url: url,
+    //   type: 'delete',
+    //   success: function(data) {
+    //     console.log(data)
+    //   }.bind(this)
+    // })
   },
   render: function () {
     $('.collapsible').collapsible({

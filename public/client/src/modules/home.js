@@ -61,7 +61,7 @@ module.exports = React.createClass({
     // console.log(e.target)
     var url = '/reviews/' + e.target.id
     var $list = $('#list-' + e.target.id)
-    $list.remove()
+    // $list.remove()
     $.ajax({
       url: url,
       type: 'delete',

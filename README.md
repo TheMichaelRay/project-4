@@ -14,7 +14,7 @@ This webapp was made in the interest of building a community where people could 
 ###How May I Join?
 --
 
-The site is hosted online [here](https://binjr.herokuapp.com/) through heroku. Create an account with secure login info and an encrypted password. Search for movies through our integrated third party API courtesy of OMBDapi.org. 
+The site is hosted online [here](https://binjr.herokuapp.com/) through heroku. Create an account with secure login info and an encrypted password. Search for movies through our integrated third party API courtesy of OMBDapi.org.
 
 --
 ###Installation Instructions
@@ -75,4 +75,4 @@ If you would like to install the app locally in order to test and improve the co
 --
 
 * Side navbar does not work correctly with jquery since it is statebased.
-
+* Delete button only works once, then after delete http request, app stops functioning...

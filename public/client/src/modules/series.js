@@ -22,6 +22,8 @@ module.exports = React.createClass({
             type: 'get',
             success: function(data) {
               this.setState({series: data})
+              var poster = this.state.series.Poster.replace(/^http:\/\//i, "https://")
+              this.setState({poster: poster})
             }.bind(this)
           })
         } else {
@@ -34,6 +36,7 @@ module.exports = React.createClass({
   },
 
   render: function() {
+
     return (
       <div>
         <Nav data={this.state.currentUser}/>
@@ -41,7 +44,7 @@ module.exports = React.createClass({
           <hr/>
           <div className="row">
             <div className="col m4">
-             <img className="activator responsive-img" src={this.state.series.Poster} />
+             <img className="activator responsive-img" src={this.state.poster} />
             </div>
             <div className="col m8">
               <h5><small>Title:</small> {this.state.series.Title} </h5>

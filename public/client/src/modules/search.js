@@ -13,11 +13,13 @@ var SeriesList = React.createClass({
       )
     } else {
       seriesNodes = this.props.data.map(function(series) {
+        // var poster = series.Poster
+        var poster = series.Poster.replace(/^http:\/\//i, 'https://')
         // remove node if they dont have poster
         return (
           <div className="card hoverable col m4" key={series.imdbID}>
             <div className="card-image waves-effect waves-block waves-light">
-              <Link to={"/series/" + series.imdbID}><img className="activator responsive-img" src={series.Poster} /></Link>
+              <Link to={"/series/" + series.imdbID}><img className="activator responsive-img" src={poster} /></Link>
             </div>
             <div className="card-content center-align">
               <div className="card-title grey-text text-darken-4">{series.Title}</div>

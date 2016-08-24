@@ -26375,6 +26375,8 @@ var SeriesList = React.createClass({
       );
     } else {
       seriesNodes = this.props.data.map(function (series) {
+        // var poster = series.Poster
+        var poster = series.Poster.replace(/^http:\/\//i, 'https://');
         // remove node if they dont have poster
         return React.createElement(
           'div',
@@ -26385,7 +26387,7 @@ var SeriesList = React.createClass({
             React.createElement(
               Link,
               { to: "/series/" + series.imdbID },
-              React.createElement('img', { className: 'activator responsive-img', src: series.Poster })
+              React.createElement('img', { className: 'activator responsive-img', src: poster })
             )
           ),
           React.createElement(
@@ -26511,6 +26513,8 @@ module.exports = React.createClass({
             type: 'get',
             success: function (data) {
               this.setState({ series: data });
+              var poster = this.state.series.Poster.replace(/^http:\/\//i, "https://");
+              this.setState({ poster: poster });
             }.bind(this)
           });
         } else {
@@ -26523,6 +26527,7 @@ module.exports = React.createClass({
   },
 
   render: function () {
+
     return React.createElement(
       'div',
       null,
@@ -26537,7 +26542,7 @@ module.exports = React.createClass({
           React.createElement(
             'div',
             { className: 'col m4' },
-            React.createElement('img', { className: 'activator responsive-img', src: this.state.series.Poster })
+            React.createElement('img', { className: 'activator responsive-img', src: this.state.poster })
           ),
           React.createElement(
             'div',
